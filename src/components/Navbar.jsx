@@ -38,6 +38,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// TODO: BUG: - fix the active list item
+
 // redux & useSelector or useeffect backend call response check status check set user logged in info in state variable
 
 const navListMenuItems = [
@@ -79,9 +81,10 @@ const navListMenuItems = [
     }
 ];
 
-function NavListMenu() {
+function NavListMenu({ setActiveList, activeList }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+    
     const navigate = useNavigate();
 
     const renderItems = navListMenuItems.map(
@@ -94,9 +97,10 @@ function NavListMenu() {
             //     console.log(newPath);
             //     navigate(String(newPath));
             // }} key={key}>
-            <Link to={"/" + String(title).toLowerCase()} key={key}>
+            <Link to={"/" + String(title).toLowerCase()} onClick={()=>setActiveList(title)}
+              key={key}>
             {/* <Link to={"/hello"}> */}
-                <MenuItem className="flex items-center gap-3 rounded-lg">
+                <MenuItem className={`flex items-center gap-3 rounded-lg ${activeList==title? 'bg-blue-gray-100': 'bg-none'}`}>
                     <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
                         {" "}
                         {React.createElement(icon, {
@@ -163,7 +167,7 @@ function NavListMenu() {
     );
 }
 
-function NavList() {
+function NavList({ setActiveList, activeList}) {
     return (
         <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
             <Link to="/" className="text-blue-gray font-medium">
@@ -173,7 +177,7 @@ function NavList() {
                     </Typography>
                 </ListItem>
             </Link>
-            <NavListMenu />
+            <NavListMenu setActiveList={setActiveList} activeList={activeList} />
             
 
             <Link to="/contact" className="text-blue-gray font-medium">
@@ -191,8 +195,13 @@ function NavList() {
 export default function NavbarWithMegaMenu() {
     const [openNav, setOpenNav] = React.useState(false);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const [activeList, setActiveList] = React.useState("general");
     const navigate = useNavigate();
     useEffect(() => {
+        const location = window.location.pathname;
+        const category = location.split('/')[1] || 'general';
+        setActiveList(category);
+        // console.log(activeList)
         const fetchData = async () => {
             try {
                 const response = await fetch("http://localhost:3333/api/auth/verify", {
@@ -251,7 +260,7 @@ export default function NavbarWithMegaMenu() {
                     </Typography>
                 </Link>
                 <div className="hidden lg:block">
-                    <NavList />
+                <NavList setActiveList={setActiveList} activeList={activeList} />
                 </div>
                 <div className="hidden gap-2 lg:flex">
                     {/* either redux or prop drilling store user logged in info */}
