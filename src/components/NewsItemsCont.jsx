@@ -71,7 +71,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
                 {
                     // News Items
                     loading ?
-                        <div className="flex items-center justify-center" style={{height: "1656px"}}><Loading /></div>
+                        <div className="flex items-center justify-center" style={{height: "584px"}}><Loading /></div>
                         :
                         articles?
                         articles?.map((article) => {
