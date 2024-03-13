@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Navbar,
     Collapse,
@@ -11,6 +11,7 @@ import {
     MenuHandler,
     MenuList,
     MenuItem,
+    Avatar,
 } from "@material-tailwind/react";
 import {
     ChevronDownIcon,
@@ -18,15 +19,6 @@ import {
     XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {
-    Bars4Icon,
-    GlobeAmericasIcon,
-    NewspaperIcon,
-    PhoneIcon,
-    RectangleGroupIcon,
-    SquaresPlusIcon,
-    SunIcon,
-    TagIcon,
-    UserGroupIcon,
 
     BriefcaseIcon,
     FilmIcon,
@@ -37,6 +29,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ProfileMenu from "./ProfileMenu";
 
 // TODO: BUG: - fix the active list item
 
@@ -81,48 +74,51 @@ const navListMenuItems = [
     }
 ];
 
-function NavListMenu({ setActiveList, activeList }) {
+const NavListMenuItem = ({ icon, title }) => {
+    const [activeList, setActiveList] = useState("general");
+
+    useEffect(() => {
+        const location = window.location.pathname;
+        const category = location.split('/')[1] || 'general';
+        console.log(category, 'category')
+        setActiveList(category);
+    }, [])
+
+    return (
+        <Link to={"/" + String(title).toLowerCase()} onClick={() => setActiveList(title)} >
+            <MenuItem className={`flex items-center gap-3 rounded-lg ${(activeList === String(title).toLowerCase()) ? 'bg-blue-gray-100' : 'bg-none'}`}>
+                <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
+                    {" "}
+                    {React.createElement(icon, {
+                        strokeWidth: 2,
+                        className: "h-6 text-gray-900 w-6",
+                    })}
+                </div>
+                <div>
+                    <Typography
+                        variant="h6"
+                        color="blue-gray"
+                        className="flex items-center text-sm font-bold"
+                    >
+                        {title}
+                    </Typography>
+                </div>
+            </MenuItem>
+        </Link>
+    )
+}
+
+function NavListMenu() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-    
-    const navigate = useNavigate();
+
 
     const renderItems = navListMenuItems.map(
-        ({ icon, title, description }, key) => (
-            // <div onClick={() => {
-            //     const currentPath = window.location.pathname;
-            //     const sectionRoot = currentPath.split('/')[1]; // Get the root of the current section
-            //     console.log(sectionRoot);
-            //     const newPath = currentPath.endsWith(sectionRoot) ? `/${String(title).toLowerCase()}` : `/${sectionRoot}/${String(title).toLowerCase()}`;
-            //     console.log(newPath);
-            //     navigate(String(newPath));
-            // }} key={key}>
-            <Link to={"/" + String(title).toLowerCase()} onClick={()=>setActiveList(title)}
-              key={key}>
-            {/* <Link to={"/hello"}> */}
-                <MenuItem className={`flex items-center gap-3 rounded-lg ${activeList==title? 'bg-blue-gray-100': 'bg-none'}`}>
-                    <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
-                        {" "}
-                        {React.createElement(icon, {
-                            strokeWidth: 2,
-                            className: "h-6 text-gray-900 w-6",
-                        })}
-                    </div>
-                    <div>
-                        <Typography
-                            variant="h6"
-                            color="blue-gray"
-                            className="flex items-center text-sm font-bold"
-                        >
-                            {title}
-                        </Typography>
-                    </div>
-                </MenuItem>
-                {/* </div> */}
-                </Link>
-            
+        ({ icon, title }, index) => (
+            <NavListMenuItem key={index} icon={icon} title={title} />
         ),
     );
+
 
     return (
         <React.Fragment>
@@ -167,7 +163,8 @@ function NavListMenu({ setActiveList, activeList }) {
     );
 }
 
-function NavList({ setActiveList, activeList}) {
+function NavList() {
+    // console.log(activeList, 'activeList NavList')
     return (
         <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
             <Link to="/" className="text-blue-gray font-medium">
@@ -177,8 +174,8 @@ function NavList({ setActiveList, activeList}) {
                     </Typography>
                 </ListItem>
             </Link>
-            <NavListMenu setActiveList={setActiveList} activeList={activeList} />
-            
+            <NavListMenu />
+
 
             <Link to="/contact" className="text-blue-gray font-medium">
                 <ListItem className="flex items-center gap-2 py-2 pr-4">
@@ -195,12 +192,10 @@ function NavList({ setActiveList, activeList}) {
 export default function NavbarWithMegaMenu() {
     const [openNav, setOpenNav] = React.useState(false);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-    const [activeList, setActiveList] = React.useState("general");
+
     const navigate = useNavigate();
     useEffect(() => {
-        const location = window.location.pathname;
-        const category = location.split('/')[1] || 'general';
-        setActiveList(category);
+
         // console.log(activeList)
         const fetchData = async () => {
             try {
@@ -260,13 +255,26 @@ export default function NavbarWithMegaMenu() {
                     </Typography>
                 </Link>
                 <div className="hidden lg:block">
-                <NavList setActiveList={setActiveList} activeList={activeList} />
+                    <NavList />
                 </div>
                 <div className="hidden gap-2 lg:flex">
+                    {
+                        isLoggedIn
+                        &&
+                        <>
+                            <Avatar
+                            src="https://docs.material-tailwind.com/img/face-2.jpg"
+                            alt="avatar"
+                            withBorder={true}
+                            className="p-0.5 mr-3"
+                        />
+                            {/* <ProfileMenu /> */}
+                        </>
+                    }
                     {/* either redux or prop drilling store user logged in info */}
                     {
                         isLoggedIn ?
-                            <Button onClick={handleLogout} variant="outlined" size="sm" color="amber">
+                            <Button onClick={handleLogout} variant="filled" size="sm" color="amber">
                                 Log Out
                             </Button>
                             :

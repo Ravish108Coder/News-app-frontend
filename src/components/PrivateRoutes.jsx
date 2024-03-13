@@ -14,13 +14,13 @@ const PrivateRoutes = () => {
       });
       const data = await response.json();
       if (data?.status) {
-        toast.success(data?.message || "Success Notification !");
+        // toast.success(data?.message || "Success Notification !");
         setAuth({ token: data?.token, user: data?.user });
       } else {
-        toast.error(data?.message || "Something went wrong !");
+        // toast.error(data?.message || "Something went wrong !");
       }
     } catch (error) {
-      toast.error(error?.message || "Something went wrong !");
+      // toast.error(error?.message || "Something went wrong !");
     } finally {
       setIsLoading(false); // Set loading state to false after fetching data
     }

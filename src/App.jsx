@@ -7,15 +7,24 @@ import NewsItemsCont from './components/NewsItemsCont'
 import ContactUs from './components/ContactUs';
 import PrivateRoutes from './components/PrivateRoutes';
 import Navbar from './components/Navbar';
+import LoadingBar from 'react-top-loading-bar'
+import { useState } from 'react';
 
 function App() {
   //TODO: - add protected routes functionality
-  //TODO: - admin privielge
+  //TODO: - admin priviledge
+
+  const [progress, setProgress] = useState(0)
 
   const location = useLocation()
   return (
     <>
         <ToastContainer />
+        <LoadingBar
+        height={3}
+        color='#f11946'
+        progress={progress} 
+      />
         {
           (location.pathname.includes('/signin') || location.pathname.includes('/signup')) ? null : <Navbar />
         }
@@ -25,15 +34,15 @@ function App() {
 
           {/* protected routes */}
           <Route element={<PrivateRoutes />}>
-            <Route exact path="/" element={<NewsItemsCont />} />
+            <Route exact path="/" element={<NewsItemsCont setProgress={setProgress} />} />
             <Route exact path="/contact" element={<ContactUs />} />
-            <Route exact path="/business" element={<NewsItemsCont category='business' />} />
-            <Route exact path="/entertainment" element={<NewsItemsCont category='entertainment' />} />
-            <Route exact path="/general" element={<NewsItemsCont category='general' />} />
-            <Route exact path="/health" element={<NewsItemsCont category='health' />} />
-            <Route exact path="/science" element={<NewsItemsCont category='science' />} />
-            <Route exact path="/sports" element={<NewsItemsCont category='sports' />} />
-            <Route exact path="/technology" element={<NewsItemsCont category='technology' />} />
+            <Route exact path="/business" element={<NewsItemsCont setProgress={setProgress} category='business' />} />
+            <Route exact path="/entertainment" element={<NewsItemsCont setProgress={setProgress} category='entertainment' />} />
+            <Route exact path="/general" element={<NewsItemsCont setProgress={setProgress} category='general' />} />
+            <Route exact path="/health" element={<NewsItemsCont setProgress={setProgress} category='health' />} />
+            <Route exact path="/science" element={<NewsItemsCont setProgress={setProgress} category='science' />} />
+            <Route exact path="/sports" element={<NewsItemsCont setProgress={setProgress} category='sports' />} />
+            <Route exact path="/technology" element={<NewsItemsCont setProgress={setProgress} category='technology' />} />
           </Route>
 
           <Route path="*" element={<h1>404 Not Found</h1>} />

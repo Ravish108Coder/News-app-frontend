@@ -71,71 +71,45 @@ import {
               Your Name
             </Typography>
             <Input
+              variant="outlined"
+              label="Name"
               name="name"
               type="text"
               size="lg"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              required
+              placeholder="John Doe"
+              required={true}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Email
             </Typography>
             <Input
+              variant="outlined"
+              label="Email"
               name="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               size="lg"
               placeholder="abc@mail.com"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              required
+              required={true}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
             </Typography>
             <Input
+              variant="outlined"
+              label="Password"
               name="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               size="lg"
-              placeholder="Password"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              required
+              placeholder="********"
+              required={true}
             />
           </div>
-
-          {/* this is optional */}
-          <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center font-normal"
-              >
-                I agree the
-                <a
-                  href="#"
-                  className="font-medium transition-colors hover:text-gray-900"
-                >
-                  &nbsp;Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          />
 
           <Button ref={SignUpBtnRef} type="submit" className="mt-6" fullWidth>
             sign up
