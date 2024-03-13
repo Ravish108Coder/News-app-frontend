@@ -8,7 +8,6 @@ import {
   import { Link, useNavigate } from "react-router-dom";
   import {useRef, useState} from 'react'
   import {toast} from 'react-toastify'
-  import axios from 'axios'
    
   export default function SimpleRegistrationForm() {
     const SignUpBtnRef = useRef(null);
@@ -26,7 +25,7 @@ import {
       formData.password = e.target.password.value;
       const fetchdata = async () => {
         try {
-          const response = await fetch(`$import.meta.env.VITE_SERVER}/api/auth/register`, {
+          const response = await fetch(`${import.meta.env.VITE_SERVER}/api/auth/register`, {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {
