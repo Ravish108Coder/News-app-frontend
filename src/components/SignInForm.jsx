@@ -16,18 +16,16 @@ import { toast } from "react-toastify";
 
     const handleSignInSubmit = (e) => {
       e.preventDefault();
-      console.log('Sign Up form submitted');
       const formData = {};
       formData.email = e.target.email.value;
       formData.password = e.target.password.value;
-      console.log(formData)
       const fetchdata = async () => {
         try {
-          const response = await fetch('http://localhost:3333/api/auth/login', {
+          const response = await fetch(`${import.meta.env.VITE_SERVER}/api/auth/login`, {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
             credentials: 'include'
           })
@@ -38,9 +36,7 @@ import { toast } from "react-toastify";
           }else{
             toast.error(data?.message || "Something went wrong !")
           }
-          console.log(data)
         } catch (error) {
-          console.log(error.message)
           toast.error(error?.message || "Something went wrong !")
         }
       }

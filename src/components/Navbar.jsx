@@ -80,7 +80,6 @@ const NavListMenuItem = ({ icon, title }) => {
     useEffect(() => {
         const location = window.location.pathname;
         const category = location.split('/')[1] || 'general';
-        console.log(category, 'category')
         setActiveList(category);
     }, [])
 
@@ -164,7 +163,6 @@ function NavListMenu() {
 }
 
 function NavList() {
-    // console.log(activeList, 'activeList NavList')
     return (
         <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
             <Link to="/" className="text-blue-gray font-medium">
@@ -196,17 +194,15 @@ export default function NavbarWithMegaMenu() {
     const navigate = useNavigate();
     useEffect(() => {
 
-        // console.log(activeList)
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:3333/api/auth/verify", {
+                const response = await fetch(`${import.meta.env.VITE_SERVER}/api/auth/verify`, {
                     method: "GET",
                     credentials: "include",
                 });
                 const data = await response.json();
                 if (data?.status) {
                     setIsLoggedIn(true);
-                    toast.success(data?.message || "Success Notification !");
                 } else {
                     toast.error(data?.message || "Something went wrong !");
                 }
@@ -220,7 +216,7 @@ export default function NavbarWithMegaMenu() {
     const handleLogout = () => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:3333/api/auth/logout", {
+                const response = await fetch(`${import.meta.env.VITE_SERVER}/api/auth/logout`, {
                     method: "GET",
                     credentials: "include",
                 });
@@ -292,11 +288,6 @@ export default function NavbarWithMegaMenu() {
                                 </Button>
                             </Link>
                     }
-                    {/* <Link to={"/signup"}>
-                        <Button variant="gradient" size="sm">
-                            Register
-                        </Button>
-                    </Link> */}
                 </div>
                 <IconButton
                     variant="text"

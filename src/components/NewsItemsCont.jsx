@@ -20,7 +20,6 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         try {
             const apiKey = import.meta.env.VITE_NEWS_API_KEY;
             const url = `https://newsapi.org/v2/top-headlines?category=${category}&country=in&apiKey=${apiKey}&page=${page}&pageSize=${pagSize}`;
-            console.log(url);
             setProgress(30);
             const response = await fetch(url);
             setProgress(70);
@@ -28,7 +27,6 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             setArticles(data.articles);
             setArticlesLength(data.totalResults);
             setProgress(100);
-            console.log(data);
         } catch (error) {
             console.log(error.message);
         } finally {
@@ -44,14 +42,11 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             setPage(1);
         }
         setCategoryChanged(true)
-        console.log('category wala')
     }, [category]); // Include category in the dependency array
 
     useEffect(() => {
         if (!categoryChanged) return;
-        // console.log('active = ', active);
         fetchData(); // Fetch data when category changes
-        console.log('active wala');
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
 

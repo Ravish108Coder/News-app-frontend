@@ -19,16 +19,14 @@ import {
 
     const handleSignUpSubmit = (e) => {
       e.preventDefault();
-      console.log('Sign Up form submitted');
       const submitBtn = SignUpBtnRef.current;
       const formData = {};
       formData.username = e.target.name.value;
       formData.email = e.target.email.value;
       formData.password = e.target.password.value;
-      console.log(formData)
       const fetchdata = async () => {
         try {
-          const response = await fetch('http://localhost:3333/api/auth/register', {
+          const response = await fetch(`$import.meta.env.VITE_SERVER}/api/auth/register`, {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {
@@ -42,9 +40,7 @@ import {
           }else{
             toast.error(data?.message || "Something went wrong !")
           }
-          console.log(data)
         } catch (error) {
-          console.log(error.message)
           toast.error(error?.message || "Something went wrong !")
         }
       }
