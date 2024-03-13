@@ -13,7 +13,8 @@ import { useState } from "react";
 // TODO: infinite scroll, lazy loading shaayad, progress, firebase shayad google auth, nodemailer for gmail 
 
 const NewsItem = ({ article }) => {
-    const { author, content, title, description, urlToImage, url } = article
+    const {title, description, snippet, image_url, url } = article
+    const urlToImage = image_url;
     const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleImageLoad = () => {

@@ -36,13 +36,15 @@ function App() {
           <Route element={<PrivateRoutes />}>
             <Route exact path="/" element={<NewsItemsCont setProgress={setProgress} />} />
             <Route exact path="/contact" element={<ContactUs />} />
-            <Route exact path="/business" element={<NewsItemsCont setProgress={setProgress} category='business' />} />
-            <Route exact path="/entertainment" element={<NewsItemsCont setProgress={setProgress} category='entertainment' />} />
             <Route exact path="/general" element={<NewsItemsCont setProgress={setProgress} category='general' />} />
-            <Route exact path="/health" element={<NewsItemsCont setProgress={setProgress} category='health' />} />
             <Route exact path="/science" element={<NewsItemsCont setProgress={setProgress} category='science' />} />
             <Route exact path="/sports" element={<NewsItemsCont setProgress={setProgress} category='sports' />} />
-            <Route exact path="/technology" element={<NewsItemsCont setProgress={setProgress} category='technology' />} />
+            <Route exact path="/business" element={<NewsItemsCont setProgress={setProgress} category='business' />} />
+            <Route exact path="/health" element={<NewsItemsCont setProgress={setProgress} category='health' />} />
+            <Route exact path="/entertainment" element={<NewsItemsCont setProgress={setProgress} category='entertainment' />} />
+            <Route exact path="/tech" element={<NewsItemsCont setProgress={setProgress} category='tech' />} />
+            <Route exact path="/politics" element={<NewsItemsCont setProgress={setProgress} category='politics' />} />
+            <Route exact path="/food" element={<NewsItemsCont setProgress={setProgress} category='food' />} />
           </Route>
 
           <Route path="*" element={<h1>404 Not Found</h1>} />

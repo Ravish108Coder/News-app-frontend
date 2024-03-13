@@ -10,7 +10,7 @@ import Loading from "./Loading";
 const NewsItemsCont = ({ category = "general", setProgress }) => {
     const [loading, setLoading] = useState(false)
     const [active, setActive] = React.useState(1);
-    const pagSize = 6
+    const pagSize = 3
     const [articlesLength, setArticlesLength] = useState(1)
     const [articles, setArticles] = useState([])
     const [page, setPage] = useState(1)
@@ -19,13 +19,21 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         setLoading(true); // Move setLoading inside the fetchData function to ensure it's always executed
         try {
             const apiKey = import.meta.env.VITE_NEWS_API_KEY;
-            const url = `https://newsapi.org/v2/top-headlines?category=${category}&country=in&apiKey=${apiKey}&page=${page}&pageSize=${pagSize}`;
+            // const url = `https://newsapi.org/v2/top-headlines?category=${category}&country=in&apiKey=${apiKey}&page=${page}&pageSize=${pagSize}`;
+            // const url = `https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=in&page=${page}$categories=${category}`;
+            const url = `https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&categories=${category}&page=${page}`;
+            console.log(url)
             setProgress(30);
             const response = await fetch(url);
             setProgress(70);
             const data = await response.json();
-            setArticles(data.articles);
-            setArticlesLength(data.totalResults);
+            console.log(data?.data);
+            setArticles(data?.data);
+            console.log(data?.meta?.found)
+            let totalPosts = Number(data?.meta?.found);
+            totalPosts = Math.min(totalPosts, 36);
+            console.log(totalPosts);
+            setArticlesLength(totalPosts);
             setProgress(100);
         } catch (error) {
             console.log(error.message);
@@ -35,6 +43,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     };
     const [categoryChanged, setCategoryChanged] = useState(false);
     useEffect(() => {
+        console.log('category changed', category)
         if (page === 1) {
             fetchData();
         } else {
@@ -65,9 +74,9 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
                         <div className="flex items-center justify-center" style={{height: "1656px"}}><Loading /></div>
                         :
                         articles?
-                        articles?.map((article, index) => {
+                        articles?.map((article) => {
                             return (
-                                <NewsItem key={index} article={article} />
+                                <NewsItem key={article.uuid} article={article} />
                             )
                         })
                         :
@@ -147,7 +156,7 @@ function DefaultPagination({ pagSize, articlesLength, setPage, fetchData, setAct
                 variant="text"
                 className="flex items-center gap-2"
                 onClick={next}
-                disabled={active === 5}
+                disabled={active === pages}
             >
                 Next
                 <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />

@@ -38,24 +38,9 @@ import ProfileMenu from "./ProfileMenu";
 const navListMenuItems = [
     // business entertainment general health science sports technology
     {
-        title: "Business",
-        description: "Find the perfect solution for your needs.",
-        icon: BriefcaseIcon,
-    },
-    {
-        title: "Entertainment",
-        description: "Meet and learn about our dedication",
-        icon: FilmIcon,
-    },
-    {
         title: "General",
         description: "Find the perfect solution for your needs.",
         icon: HomeIcon,
-    },
-    {
-        title: "Health",
-        description: "Learn how we can help you achieve your goals.",
-        icon: HeartIcon,
     },
     {
         title: "Science",
@@ -68,10 +53,35 @@ const navListMenuItems = [
         icon: TrophyIcon,
     },
     {
-        title: "Technology",
+        title: "Business",
+        description: "Find the perfect solution for your needs.",
+        icon: BriefcaseIcon,
+    },
+    {
+        title: "Health",
+        description: "Learn how we can help you achieve your goals.",
+        icon: HeartIcon,
+    },
+    {
+        title: "Entertainment",
+        description: "Meet and learn about our dedication",
+        icon: FilmIcon,
+    },
+    {
+        title: "Tech",
         description: "Read insightful articles, tips, and expert opinions.",
         icon: TrophyIcon,
-    }
+    },
+    {
+        title: "Politics",
+        description: "Read insightful articles, tips, and expert opinions.",
+        icon: TrophyIcon,
+    },
+    {
+        title: "Food",
+        description: "Read insightful articles, tips, and expert opinions.",
+        icon: TrophyIcon,
+    },
 ];
 
 const NavListMenuItem = ({ icon, title }) => {
@@ -80,6 +90,7 @@ const NavListMenuItem = ({ icon, title }) => {
     useEffect(() => {
         const location = window.location.pathname;
         const category = location.split('/')[1] || 'general';
+        console.log(category)
         setActiveList(category);
     }, [])
 
