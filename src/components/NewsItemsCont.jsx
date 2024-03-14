@@ -4,13 +4,15 @@ import NewsItem from "./NewsItem"
 import { Button, IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Loading from "./Loading";
+import { SavedArticles } from "../../data";
+import { useId } from "react";
 
 // TODO: - add loading spinner
 
 const NewsItemsCont = ({ category = "general", setProgress }) => {
     const [loading, setLoading] = useState(false)
     const [active, setActive] = React.useState(1);
-    const pagSize = 3
+    const pagSize = 9
     const [articlesLength, setArticlesLength] = useState(1)
     const [articles, setArticles] = useState([])
     const [page, setPage] = useState(1)
@@ -31,7 +33,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             setArticles(data?.data);
             console.log(data?.meta?.found)
             let totalPosts = Number(data?.meta?.found);
-            totalPosts = Math.min(totalPosts, 36);
+            totalPosts = Math.min(totalPosts, 72);
             console.log(totalPosts);
             setArticlesLength(totalPosts);
             setProgress(100);
@@ -41,11 +43,59 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             setLoading(false); // Move setLoading inside the finally block to ensure it's always executed
         }
     };
+    const fetchMultiplePages = async () => {
+        try {
+            setLoading(true);
+            let Articles = [];
+            setProgress(30);
+            for (let i = 1; i >=0; i--) {
+                let url = `https://api.thenewsapi.com/v1/news/all?api_token=${import.meta.env.VITE_NEWS_API_KEY}&language=en&categories=${category}&page=${(2*page)-i}`;
+                console.log(url)
+                const response = await fetch(url);
+                if(i===0) setProgress(70);
+                const data = await response.json();
+                console.log(data?.data);
+                Articles = Articles.concat(data?.data);
+                let totalPosts = Number(data?.meta?.found);
+                totalPosts = Math.min(totalPosts, 72);
+                console.log(totalPosts);
+                setArticlesLength(totalPosts);
+            }
+            setArticles(Articles);
+            setProgress(100);
+            setLoading(false);
+            console.log(Articles);
+        } catch (error) {
+            console.log(error.message);
+            setArticles([]);
+        }finally{
+            setLoading(false);
+        }
+    }
+
+    const OverRequestNewsApiPreSavedArticlesSetCalling = () => {
+        const shuffleArray = (array) =>{
+            // Loop over the array starting from the end
+            for (let i = array.length - 1; i > 0; i--) {
+                // Generate a random index between 0 and i (inclusive)
+                const j = Math.floor(Math.random() * (i + 1));
+                // Swap the current element with the randomly selected element
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        const ShuffledSavedArticles = shuffleArray(SavedArticles);
+        setArticles(ShuffledSavedArticles);
+        setArticlesLength(81);
+    }
     const [categoryChanged, setCategoryChanged] = useState(false);
     useEffect(() => {
-        console.log('category changed', category)
+        // console.log('category changed', category)
         if (page === 1) {
-            fetchData();
+            
+            // fetchData();
+            // fetchMultiplePages();
+            OverRequestNewsApiPreSavedArticlesSetCalling();
         } else {
             setActive(1);
             setPage(1);
@@ -55,7 +105,9 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
 
     useEffect(() => {
         if (!categoryChanged) return;
-        fetchData(); // Fetch data when category changes
+        // fetchData(); // Fetch data when category changes
+        // fetchMultiplePages();
+        OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
 
@@ -70,13 +122,11 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
                 >
                 {
                     // News Items
-                    loading ?
-                        <div className="flex items-center justify-center" style={{height: "584px"}}><Loading /></div>
-                        :
+                    
                         articles?
-                        articles?.map((article) => {
+                        articles?.map((article, index) => {
                             return (
-                                <NewsItem key={article.uuid} article={article} />
+                                <NewsItem key={article.uuid} article={article} loading={loading} />
                             )
                         })
                         :
