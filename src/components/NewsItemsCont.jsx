@@ -1,18 +1,17 @@
 import React from "react";
 import { useEffect, useState } from "react"
 import NewsItem from "./NewsItem"
-import { Button, IconButton } from "@material-tailwind/react";
+import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Loading from "./Loading";
 import { SavedArticles } from "../../data";
-import { useId } from "react";
 
 // TODO: - add loading spinner
 
 const NewsItemsCont = ({ category = "general", setProgress }) => {
     const [loading, setLoading] = useState(false)
     const [active, setActive] = React.useState(1);
-    const pagSize = 9
+    const pagSize = 6
     const [articlesLength, setArticlesLength] = useState(1)
     const [articles, setArticles] = useState([])
     const [page, setPage] = useState(1)
@@ -48,11 +47,11 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             setLoading(true);
             let Articles = [];
             setProgress(30);
-            for (let i = 1; i >=0; i--) {
-                let url = `https://api.thenewsapi.com/v1/news/all?api_token=${import.meta.env.VITE_NEWS_API_KEY}&language=en&categories=${category}&page=${(2*page)-i}`;
+            for (let i = 1; i >= 0; i--) {
+                let url = `https://api.thenewsapi.com/v1/news/all?api_token=${import.meta.env.VITE_NEWS_API_KEY}&language=en&categories=${category}&page=${(2 * page) - i}`;
                 console.log(url)
                 const response = await fetch(url);
-                if(i===0) setProgress(70);
+                if (i === 0) setProgress(70);
                 const data = await response.json();
                 console.log(data?.data);
                 Articles = Articles.concat(data?.data);
@@ -68,13 +67,20 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         } catch (error) {
             console.log(error.message);
             setArticles([]);
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
 
+    const ManuallyLoadForSomeTime = async () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    }
+
     const OverRequestNewsApiPreSavedArticlesSetCalling = () => {
-        const shuffleArray = (array) =>{
+        const shuffleArray = (array) => {
             // Loop over the array starting from the end
             for (let i = array.length - 1; i > 0; i--) {
                 // Generate a random index between 0 and i (inclusive)
@@ -85,17 +91,18 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             return array;
         }
         const ShuffledSavedArticles = shuffleArray(SavedArticles);
+        ManuallyLoadForSomeTime();
         setArticles(ShuffledSavedArticles);
-        setArticlesLength(81);
+        setArticlesLength(60);
     }
     const [categoryChanged, setCategoryChanged] = useState(false);
     useEffect(() => {
         // console.log('category changed', category)
         if (page === 1) {
-            
+
             // fetchData();
-            // fetchMultiplePages();
-            OverRequestNewsApiPreSavedArticlesSetCalling();
+            fetchMultiplePages();
+            // OverRequestNewsApiPreSavedArticlesSetCalling();
         } else {
             setActive(1);
             setPage(1);
@@ -106,24 +113,24 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     useEffect(() => {
         if (!categoryChanged) return;
         // fetchData(); // Fetch data when category changes
-        // fetchMultiplePages();
-        OverRequestNewsApiPreSavedArticlesSetCalling();
+        fetchMultiplePages();
+        // OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
 
 
 
-    {/* style={{paddingTop: '350px'}} in loading div */}
+    {/* style={{paddingTop: '350px'}} in loading div */ }
 
     return (
         <div>
             <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center flex-wrap
-                space-x-4 gap-y-8"
-                >
+                md:space-x-4 gap-y-8"
+            >
                 {
                     // News Items
-                    
-                        articles?
+
+                    articles ?
                         articles?.map((article, index) => {
                             return (
                                 <NewsItem key={article.uuid} article={article} loading={loading} />
@@ -134,7 +141,12 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
                 }
             </div>
             <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center">
-                <DefaultPagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                <div className="hidden md:block">
+                    <DefaultPagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                </div>
+                <div className="md:hidden">
+                    <SimplePagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                </div>
             </div>
         </div>
     )
@@ -211,6 +223,50 @@ function DefaultPagination({ pagSize, articlesLength, setPage, fetchData, setAct
                 Next
                 <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
             </Button>
+        </div>
+    );
+}
+
+function SimplePagination({ pagSize, articlesLength, setPage, fetchData, setActive, active }) {
+    let pages = Math.ceil(articlesLength / pagSize)
+    // const [active, setActive] = React.useState(1);
+
+    const next = () => {
+        if (active === pages) return;
+
+        setActive(active => active + 1);
+        setPage(active => active + 1);
+    };
+
+    const prev = () => {
+        if (active === 1) return;
+
+        setActive(active => active - 1);
+        setPage(active => active - 1);
+    };
+
+    return (
+        <div className="flex items-center gap-8">
+            <IconButton
+                size="sm"
+                variant="outlined"
+                onClick={prev}
+                disabled={active === 1}
+            >
+                <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
+            </IconButton>
+            <Typography color="gray" className="font-normal">
+                Page <strong className="text-gray-900">{active}</strong> of{" "}
+                <strong className="text-gray-900">{pages}</strong>
+            </Typography>
+            <IconButton
+                size="sm"
+                variant="outlined"
+                onClick={next}
+                disabled={active === pages}
+            >
+                <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+            </IconButton>
         </div>
     );
 }

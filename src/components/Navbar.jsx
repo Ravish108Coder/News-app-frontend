@@ -30,6 +30,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ProfileMenu from "./ProfileMenu";
+import LogOutBtn from "./LogOutBtn";
 
 // TODO: BUG: - fix the active list item
 
@@ -90,7 +91,7 @@ const NavListMenuItem = ({ icon, title }) => {
     useEffect(() => {
         const location = window.location.pathname;
         const category = location.split('/')[1] || 'general';
-        console.log(category)
+        // console.log(category)
         setActiveList(category);
     }, [])
 
@@ -281,9 +282,7 @@ export default function NavbarWithMegaMenu() {
                     {/* either redux or prop drilling store user logged in info */}
                     {
                         isLoggedIn ?
-                            <Button onClick={handleLogout} variant="filled" size="sm" color="amber">
-                                Log Out
-                            </Button>
+                            <LogOutBtn handleLogout={handleLogout} />
                             :
                             <Link to={"/signin"}>
                                 <Button variant="text" size="sm" color="blue-gray">
@@ -316,16 +315,38 @@ export default function NavbarWithMegaMenu() {
             <Collapse open={openNav}>
                 <NavList />
                 <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
-                    <Link to={"/signin"}>
-                        <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
-                            Log In
-                        </Button>
-                    </Link>
-                    <Link to={"/signup"}>
-                        <Button variant="gradient" size="sm" fullWidth>
-                            Register
-                        </Button>
-                    </Link>
+                {
+                        isLoggedIn
+                        &&
+                        <>
+                            <Avatar
+                            src="https://docs.material-tailwind.com/img/face-2.jpg"
+                            alt="avatar"
+                            withBorder={true}
+                            className="p-0.5 mr-3"
+                        />
+                            {/* <ProfileMenu /> */}
+                        </>
+                    }
+                    {/* either redux or prop drilling store user logged in info */}
+                    {
+                        isLoggedIn ?
+                            <LogOutBtn handleLogout={handleLogout} />
+                            :
+                            <Link to={"/signin"}>
+                                <Button variant="text" size="sm" color="blue-gray">
+                                    Log In
+                                </Button>
+                            </Link>
+                    }
+                    {
+                        isLoggedIn ? null :
+                            <Link to={"/signup"}>
+                                <Button variant="gradient" size="sm">
+                                    Register
+                                </Button>
+                            </Link>
+                    }
                 </div>
             </Collapse>
         </Navbar>
