@@ -285,7 +285,7 @@ export default function NavbarWithMegaMenu() {
                             withBorder={true}
                             className="p-0.5 mr-3"
                         /> */}
-                            <ProfileMenu />
+                            <ProfileMenu handleLogout={handleLogout} />
                         </>
                     }
                     {/* either redux or prop drilling store user logged in info */}
@@ -321,7 +321,8 @@ export default function NavbarWithMegaMenu() {
                     )}
                 </IconButton>
             </div>
-            <Collapse open={openNav}>
+            <div className="block md:hidden">
+            <Collapse  open={openNav}>
                 <NavList setOpenNav={setOpenNav} />
                 <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
                 {
@@ -358,6 +359,7 @@ export default function NavbarWithMegaMenu() {
                     }
                 </div>
             </Collapse>
+            </div>
         </Navbar>
     );
 }

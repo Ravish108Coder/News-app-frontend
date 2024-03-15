@@ -87,51 +87,51 @@ export const SavedArticles = [
         "categories": [],
         "relevance_score": null
     },
-    {
-        "uuid": "5c4ad955-dce5-4727-8623-e82c019e26af",
-        "title": "조국혁신당 바람에 전북 총선판의 변화 예고",
-        "description": "조국혁신당의 바람이 점차 거세지면서 전북 총선판의 변화가 예고되고 있다.조국혁신당 조국 대표의 전북에 대한 애정?...",
-        "keywords": "",
-        "snippet": "조국 조국혁신당 대표가 13일 전북 전주시 전주한옥마을을 방문해 시민들과 인사를 나누고 있다. 특별취재반\n\n조국혁신?...",
-        "url": "http://www.domin.co.kr/news/articleView.html?idxno=1461642",
-        "image_url": "http://www.domin.co.kr/news/thumbnail/202403/1461642_627887_2350_v150.jpg",
-        "language": "ko",
-        "published_at": "2024-03-13T18:28:00.000000Z",
-        "source": "domin.co.kr",
-        "categories": [],
-        "relevance_score": null
-    },
-    {
-        "uuid": "dedabffc-f82a-4ed6-843b-ebb111da8ec1",
-        "title": "Nate Diaz, Jorge Masvidal ditch MMA for rematch in boxing June 1",
-        "description": "Former UFC combatants Nate Diaz and Jorge Masvidal will fight again June 1 at the Kia Forum in Inglewood, California, but this time in a boxing match, officials...",
-        "keywords": "",
-        "snippet": "Jake Paul and Nate Diaz go the distance, but Paul ends up the victor in Diaz's boxing debut. (2:01)\n\nOpen Extended Reactions\n\nA rematch of a marquee UFC headlin...",
-        "url": "https://www.espn.com/boxing/story/_/id/39723699/nate-diaz-jorge-masvidal-ditch-mma-rematch-boxing-june-1",
-        "image_url": "https://a.espncdn.com/combiner/i?img=/photo/2019/1030/r620806_1296x729_16-9.jpg",
-        "language": "en",
-        "published_at": "2024-03-13T18:27:42.000000Z",
-        "source": "espn.com",
-        "categories": [
-            "sports",
-            "general"
-        ],
-        "relevance_score": null
-    },
-    {
-        "uuid": "257117f0-6d65-4e05-95e3-1735b7847f39",
-        "title": "广西强化纠纷多元化解 挽回消费者损失1.4亿元-中新网",
-        "description": "",
-        "keywords": "消费维权, 查办案件, 市场监督, 消费升级, 万村",
-        "snippet": "中新网南宁3月13日电(林浩)3月13日，广西壮族自治区市场监督管理局一级巡视员李昌华介绍，2023年，广西强化纠纷多元化?...",
-        "url": "https://www.chinanews.com.cn/cj/2024/03-13/10179654.shtml",
-        "image_url": "https://i2.chinanews.com.cn/simg/ypt/2024/240312/736a9872-ca2f-4356-9f34-92b578d47e8b_zsite_sl.jpg",
-        "language": "zh",
-        "published_at": "2024-03-13T18:27:34.000000Z",
-        "source": "chinanews.com",
-        "categories": [],
-        "relevance_score": null
-    },
+    // {
+    //     "uuid": "5c4ad955-dce5-4727-8623-e82c019e26af",
+    //     "title": "조국혁신당 바람에 전북 총선판의 변화 예고",
+    //     "description": "조국혁신당의 바람이 점차 거세지면서 전북 총선판의 변화가 예고되고 있다.조국혁신당 조국 대표의 전북에 대한 애정?...",
+    //     "keywords": "",
+    //     "snippet": "조국 조국혁신당 대표가 13일 전북 전주시 전주한옥마을을 방문해 시민들과 인사를 나누고 있다. 특별취재반\n\n조국혁신?...",
+    //     "url": "http://www.domin.co.kr/news/articleView.html?idxno=1461642",
+    //     "image_url": "http://www.domin.co.kr/news/thumbnail/202403/1461642_627887_2350_v150.jpg",
+    //     "language": "ko",
+    //     "published_at": "2024-03-13T18:28:00.000000Z",
+    //     "source": "domin.co.kr",
+    //     "categories": [],
+    //     "relevance_score": null
+    // },
+    // {
+    //     "uuid": "dedabffc-f82a-4ed6-843b-ebb111da8ec1",
+    //     "title": "Nate Diaz, Jorge Masvidal ditch MMA for rematch in boxing June 1",
+    //     "description": "Former UFC combatants Nate Diaz and Jorge Masvidal will fight again June 1 at the Kia Forum in Inglewood, California, but this time in a boxing match, officials...",
+    //     "keywords": "",
+    //     "snippet": "Jake Paul and Nate Diaz go the distance, but Paul ends up the victor in Diaz's boxing debut. (2:01)\n\nOpen Extended Reactions\n\nA rematch of a marquee UFC headlin...",
+    //     "url": "https://www.espn.com/boxing/story/_/id/39723699/nate-diaz-jorge-masvidal-ditch-mma-rematch-boxing-june-1",
+    //     "image_url": "https://a.espncdn.com/combiner/i?img=/photo/2019/1030/r620806_1296x729_16-9.jpg",
+    //     "language": "en",
+    //     "published_at": "2024-03-13T18:27:42.000000Z",
+    //     "source": "espn.com",
+    //     "categories": [
+    //         "sports",
+    //         "general"
+    //     ],
+    //     "relevance_score": null
+    // },
+    // {
+    //     "uuid": "257117f0-6d65-4e05-95e3-1735b7847f39",
+    //     "title": "广西强化纠纷多元化解 挽回消费者损失1.4亿元-中新网",
+    //     "description": "",
+    //     "keywords": "消费维权, 查办案件, 市场监督, 消费升级, 万村",
+    //     "snippet": "中新网南宁3月13日电(林浩)3月13日，广西壮族自治区市场监督管理局一级巡视员李昌华介绍，2023年，广西强化纠纷多元化?...",
+    //     "url": "https://www.chinanews.com.cn/cj/2024/03-13/10179654.shtml",
+    //     "image_url": "https://i2.chinanews.com.cn/simg/ypt/2024/240312/736a9872-ca2f-4356-9f34-92b578d47e8b_zsite_sl.jpg",
+    //     "language": "zh",
+    //     "published_at": "2024-03-13T18:27:34.000000Z",
+    //     "source": "chinanews.com",
+    //     "categories": [],
+    //     "relevance_score": null
+    // },
     // {
     //     "uuid": "0704219c-c38e-4291-9da5-e934948a7b8a",
     //     "title": "Q3 2023 PearlAbyss Corp Earnings Call Transcript",

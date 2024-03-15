@@ -15,6 +15,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     const [articlesLength, setArticlesLength] = useState(1)
     const [articles, setArticles] = useState([])
     const [page, setPage] = useState(1)
+    const [categoryChanged, setCategoryChanged] = useState(false);
 
     const fetchData = async () => {
         setLoading(true); // Move setLoading inside the fetchData function to ensure it's always executed
@@ -98,14 +99,14 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         setArticlesLength(60);
         setProgress(100);
     }
-    const [categoryChanged, setCategoryChanged] = useState(false);
     useEffect(() => {
         // console.log('category changed', category)
+        setArticles(SavedArticles)
         if (page === 1) {
 
             // fetchData();
-            fetchMultiplePages();
-            // OverRequestNewsApiPreSavedArticlesSetCalling();
+            // fetchMultiplePages();
+            OverRequestNewsApiPreSavedArticlesSetCalling();
         } else {
             setActive(1);
             setPage(1);
@@ -116,8 +117,8 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     useEffect(() => {
         if (!categoryChanged) return;
         // fetchData(); // Fetch data when category changes
-        fetchMultiplePages();
-        // OverRequestNewsApiPreSavedArticlesSetCalling();
+        // fetchMultiplePages();
+        OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
 

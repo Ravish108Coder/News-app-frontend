@@ -8,9 +8,9 @@ import {
   } from "@material-tailwind/react";
 import LogOutBtn from "./LogOutBtn";
    
-  export default function ProfileMenu() {
+  export default function ProfileMenu({handleLogout}) {
     return (
-      <Menu>
+      <Menu dismiss={false} >
         <MenuHandler>
           <Avatar
             variant="circular"
@@ -100,7 +100,7 @@ import LogOutBtn from "./LogOutBtn";
             </Typography>
           </MenuItem>
           <hr className="my-2 border-blue-gray-50" />
-          <MenuItem className="flex justify-center bg-white">
+          <div className="relative flex justify-center bg-white">
             {/* <svg
               width="16"
               height="14"
@@ -117,10 +117,10 @@ import LogOutBtn from "./LogOutBtn";
             </svg> */}
             <>
             {/* <Typography variant="small" className="font-medium"> */}
-              {<LogOutBtn />}
+            <LogOutBtn handleLogout={handleLogout} />
             {/* </Typography> */}
             </>
-          </MenuItem>
+          </div>
         </MenuList>
       </Menu>
     );
