@@ -99,14 +99,20 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         setArticlesLength(60);
         setProgress(100);
     }
+    let offline = false; // TODO: check if offline
     useEffect(() => {
         // console.log('category changed', category)
         setArticles(SavedArticles)
         if (page === 1) {
 
             // fetchData();
+            if(offline){
+                OverRequestNewsApiPreSavedArticlesSetCalling();
+            }else{
+                fetchMultiplePages();
+            }
             // fetchMultiplePages();
-            OverRequestNewsApiPreSavedArticlesSetCalling();
+            // OverRequestNewsApiPreSavedArticlesSetCalling();
         } else {
             setActive(1);
             setPage(1);
@@ -117,8 +123,13 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     useEffect(() => {
         if (!categoryChanged) return;
         // fetchData(); // Fetch data when category changes
+        if(offline){
+            OverRequestNewsApiPreSavedArticlesSetCalling();
+        }else{
+            fetchMultiplePages();
+        }
         // fetchMultiplePages();
-        OverRequestNewsApiPreSavedArticlesSetCalling();
+        // OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
 
