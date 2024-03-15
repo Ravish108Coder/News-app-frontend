@@ -93,7 +93,8 @@ const NavListMenuItem = ({ icon, title, setOpenNav, setIsMobileMenuOpen }) => {
     useEffect(() => {
         // const location = window.location.pathname;
         // console.log(location)
-        const category = location.split('/')[1] || 'general';
+        let category = location.split('/')[1]
+        if(category === '' || category==="contact") category = "general";
         // console.log(category)
         setActiveList(category);
     }, [location])
@@ -285,14 +286,12 @@ export default function NavbarWithMegaMenu() {
                             withBorder={true}
                             className="p-0.5 mr-3"
                         /> */}
-                            <ProfileMenu handleLogout={handleLogout} />
+                            <ProfileMenu version="large" handleLogout={handleLogout} />
                         </>
                     }
                     {/* either redux or prop drilling store user logged in info */}
                     {
-                        isLoggedIn ?
-                            <LogOutBtn handleLogout={handleLogout} />
-                            :
+                        !isLoggedIn &&
                             <Link to={"/signin"}>
                                 <Button variant="text" size="sm" color="blue-gray">
                                     Log In
@@ -300,7 +299,7 @@ export default function NavbarWithMegaMenu() {
                             </Link>
                     }
                     {
-                        isLoggedIn ? null :
+                        !isLoggedIn &&
                             <Link to={"/signup"}>
                                 <Button variant="gradient" size="sm">
                                     Register
@@ -321,28 +320,26 @@ export default function NavbarWithMegaMenu() {
                     )}
                 </IconButton>
             </div>
-            <div className="block md:hidden">
             <Collapse  open={openNav}>
-                <NavList setOpenNav={setOpenNav} />
+            <div className="lg:hidden">
+                <NavList setOpenNav={setOpenNav} /></div>
                 <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
                 {
                         isLoggedIn
                         &&
                         <>
-                            <Avatar
+                            {/* <Avatar
                             src="https://docs.material-tailwind.com/img/face-2.jpg"
                             alt="avatar"
                             withBorder={true}
                             className="p-0.5 mr-3"
-                        />
-                            {/* <ProfileMenu /> */}
+                        /> */}
+                        <ProfileMenu version="small" openNav={openNav} handleLogout={handleLogout} placement={"right-start"} />
                         </>
                     }
                     {/* either redux or prop drilling store user logged in info */}
                     {
-                        isLoggedIn ?
-                            <LogOutBtn handleLogout={handleLogout} />
-                            :
+                        !isLoggedIn &&
                             <Link to={"/signin"}>
                                 <Button variant="text" size="sm" color="blue-gray">
                                     Log In
@@ -350,7 +347,7 @@ export default function NavbarWithMegaMenu() {
                             </Link>
                     }
                     {
-                        isLoggedIn ? null :
+                        !isLoggedIn &&
                             <Link to={"/signup"}>
                                 <Button variant="gradient" size="sm">
                                     Register
@@ -359,7 +356,6 @@ export default function NavbarWithMegaMenu() {
                     }
                 </div>
             </Collapse>
-            </div>
         </Navbar>
     );
 }
