@@ -279,13 +279,13 @@ export default function NavbarWithMegaMenu() {
                         isLoggedIn
                         &&
                         <>
-                            <Avatar
+                            {/* <Avatar
                             src="https://docs.material-tailwind.com/img/face-2.jpg"
                             alt="avatar"
                             withBorder={true}
                             className="p-0.5 mr-3"
-                        />
-                            {/* <ProfileMenu /> */}
+                        /> */}
+                            <ProfileMenu />
                         </>
                     }
                     {/* either redux or prop drilling store user logged in info */}

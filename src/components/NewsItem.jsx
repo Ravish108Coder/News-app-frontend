@@ -98,7 +98,7 @@ const NewsItem = ({ article, loading }) => {
                         {
                             !description || description === "[Removed]" ?
                                 "No Description" :
-                                String(description).length > 98 ? String(description).slice(0, 95) + "..." : description
+                                String(description).length > 168 ? String(description).slice(0, 165) + "..." : description
                         }
                     </Typography>
                 </CardBody>
