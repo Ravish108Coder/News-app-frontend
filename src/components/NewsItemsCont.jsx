@@ -22,7 +22,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             const apiKey = import.meta.env.VITE_NEWS_API_KEY;
             // const url = `https://newsapi.org/v2/top-headlines?category=${category}&country=in&apiKey=${apiKey}&page=${page}&pageSize=${pagSize}`;
             // const url = `https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=in&page=${page}$categories=${category}`;
-            const url = `https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&categories=${category}&page=${page}`;
+            const url = `https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&locale=us&language=en&categories=${category}&page=${page}`;
             console.log(url)
             setProgress(30);
             const response = await fetch(url);
@@ -76,7 +76,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 2000);
+        }, 1000);
     }
 
     const OverRequestNewsApiPreSavedArticlesSetCalling = () => {
@@ -91,9 +91,12 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             return array;
         }
         const ShuffledSavedArticles = shuffleArray(SavedArticles);
+        setProgress(30);
         ManuallyLoadForSomeTime();
+        setProgress(70);
         setArticles(ShuffledSavedArticles);
         setArticlesLength(60);
+        setProgress(100);
     }
     const [categoryChanged, setCategoryChanged] = useState(false);
     useEffect(() => {
