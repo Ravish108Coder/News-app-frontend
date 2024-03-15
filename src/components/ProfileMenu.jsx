@@ -8,6 +8,8 @@ import {
   } from "@material-tailwind/react";
 import LogOutBtn from "./LogOutBtn";
 import { useEffect, useState } from "react";
+import EditProfile from "./EditProfile";
+import ProfileCard from "./ProfileCard";
    
   export default function ProfileMenu({handleLogout, placement = "bottom-end", version, openNav}) {
     const [showMenu, setShowMenu] = useState(false);
@@ -49,10 +51,11 @@ import { useEffect, useState } from "react";
                 fill="#90A4AE"
               />
             </svg>
-   
-            <Typography variant="small" className="font-medium">
+            <ProfileCard >
+            <div variant="small" className="font-medium">
               My Profile
-            </Typography>
+            </div>
+            </ProfileCard>
           </MenuItem>
           <MenuItem className="flex items-center gap-2">
             <svg
@@ -69,10 +72,13 @@ import { useEffect, useState } from "react";
                 fill="#90A4AE"
               />
             </svg>
+            <EditProfile >
    
-            <Typography variant="small" className="font-medium">
+            <div variant="small" className="font-medium">
               Edit Profile
-            </Typography>
+
+            </div>
+            </EditProfile>
           </MenuItem>
           <MenuItem className="flex items-center gap-2">
             <svg
