@@ -13,9 +13,11 @@ export default function SimpleRegistrationForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignInSubmit = (e) => {
+    setLoading(true);
     e.preventDefault();
     const formData = {};
     formData.email = e.target.email.value;
@@ -32,21 +34,27 @@ export default function SimpleRegistrationForm() {
         })
         const data = await response.json()
         if (data?.status) {
+          setEmail('');
+          setPassword('');
           navigate('/');
           toast.success(data?.message || "Success Notification !");
         } else {
           toast.error(data?.message || "Something went wrong !")
+          setPassword('');
         }
+        setLoading(false);
       } catch (error) {
         toast.error(error?.message || "Something went wrong !")
+        setEmail('');
+        setPassword('');
+        setLoading(false);
       }
     }
 
     // loading set and navigate
 
     fetchdata();
-    setEmail('');
-    setPassword('');
+    
   }
   return (
     <Card color="transparent" shadow={false}>
@@ -62,10 +70,12 @@ export default function SimpleRegistrationForm() {
             Your Email
           </Typography>
           <Input
+            disabled={loading}
             variant="outlined"
             label="Email"
             name="email"
             type="email"
+            value={email}
             placeholder="abc@email.com"
             size="lg"
             onChange={(e) => setEmail(e.target.value)}
@@ -75,9 +85,11 @@ export default function SimpleRegistrationForm() {
             Password
           </Typography>
           <Input
+          disabled={loading}
             variant="outlined"
             label="Password"
             name="password"
+            value={password}
             type={showPassword ? "text" : "password"}
             icon={
               !showPassword ?
@@ -99,7 +111,7 @@ export default function SimpleRegistrationForm() {
 
 
 
-        <Button type="submit" className="mt-6" fullWidth>
+        <Button loading={loading} type="submit" className="mt-6" fullWidth>
           sign in
         </Button>
         <Typography color="gray" className="mt-4 text-center font-normal">

@@ -24,7 +24,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             const apiKey = import.meta.env.VITE_NEWS_API_KEY;
             // const url = `https://newsapi.org/v2/top-headlines?category=${category}&country=in&apiKey=${apiKey}&page=${page}&pageSize=${pagSize}`;
             // const url = `https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=in&page=${page}$categories=${category}`;
-            const url = `https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&locale=us&language=en&categories=${category}&page=${page}`;
+            const url = `https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&locale=in&language=en&categories=${category}&page=${page}`;
             console.log(url)
             setProgress(30);
             const response = await fetch(url);
@@ -133,12 +133,10 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         // OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
-
-
-
-    {/* style={{paddingTop: '350px'}} in loading div */ }
-
     return (
+        <>
+        {
+        loading ? <div className="absolute" style={{left: '47%', top: '45%'}}><Loading /></div> : 
         <>
             <div className="h-0">
                 <ContactUs />
@@ -169,6 +167,8 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
                     </div>
                 </div>
             </div>
+            </>
+        }
         </>
     )
 }

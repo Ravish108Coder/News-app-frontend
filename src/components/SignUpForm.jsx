@@ -16,6 +16,7 @@ export default function SimpleRegistrationForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
@@ -26,6 +27,7 @@ export default function SimpleRegistrationForm() {
     formData.password = e.target.password.value;
     const fetchdata = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`${import.meta.env.VITE_SERVER}/api/auth/register`, {
           method: 'POST',
           body: JSON.stringify(formData),
@@ -42,6 +44,8 @@ export default function SimpleRegistrationForm() {
         }
       } catch (error) {
         toast.error(error?.message || "Something went wrong !")
+      }finally{
+        setLoading(false);
       }
     }
 
@@ -67,6 +71,7 @@ export default function SimpleRegistrationForm() {
             Your Name
           </Typography>
           <Input
+          disabled={loading}
             variant="outlined"
             label="Name"
             name="name"
@@ -81,6 +86,7 @@ export default function SimpleRegistrationForm() {
             Your Email
           </Typography>
           <Input
+          disabled={loading}
             variant="outlined"
             label="Email"
             name="email"
@@ -95,6 +101,7 @@ export default function SimpleRegistrationForm() {
             Password
           </Typography>
           <Input
+          disabled={loading}
             variant="outlined"
             label="Password"
             name="password"
@@ -118,7 +125,7 @@ export default function SimpleRegistrationForm() {
           />
         </div>
 
-        <Button ref={SignUpBtnRef} type="submit" className="mt-6" fullWidth>
+        <Button loading={loading} ref={SignUpBtnRef} type="submit" className="mt-6" fullWidth>
           sign up
         </Button>
         <Typography color="gray" className="mt-4 text-center font-normal">
