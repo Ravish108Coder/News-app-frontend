@@ -100,7 +100,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         setArticlesLength(60);
         setProgress(100);
     }
-    let offline = false; // TODO: check if offline
+    let offline = true; // TODO: check if offline
     useEffect(() => {
         // console.log('category changed', category)
         setArticles(SavedArticles)
