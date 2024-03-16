@@ -25,7 +25,7 @@ const ContactUs = () => {
     setLoading(true)
     try {
       const sendEmail = async () => {
-        const response = await fetch("http://localhost:3333/api/user/sendmail", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/sendmail`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
