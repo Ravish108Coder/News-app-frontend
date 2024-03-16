@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 const PrivateRoutes = () => {
   const [auth, setAuth] = useState({});
@@ -15,8 +14,8 @@ const PrivateRoutes = () => {
       const data = await response.json();
       if (data?.status) {
         setAuth({ token: data?.token, user: data?.user });
-      } else {
-      }
+        localStorage.setItem("token", data?.token);
+      } 
     } catch (error) {
     } finally {
       setIsLoading(false); // Set loading state to false after fetching data

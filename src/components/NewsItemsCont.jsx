@@ -5,6 +5,7 @@ import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Loading from "./Loading";
 import { SavedArticles } from "../../data";
+import ContactUs from "./ContactUs";
 
 // TODO: - add loading spinner
 
@@ -106,9 +107,9 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         if (page === 1) {
 
             // fetchData();
-            if(offline){
+            if (offline) {
                 OverRequestNewsApiPreSavedArticlesSetCalling();
-            }else{
+            } else {
                 fetchMultiplePages();
             }
             // fetchMultiplePages();
@@ -123,9 +124,9 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     useEffect(() => {
         if (!categoryChanged) return;
         // fetchData(); // Fetch data when category changes
-        if(offline){
+        if (offline) {
             OverRequestNewsApiPreSavedArticlesSetCalling();
-        }else{
+        } else {
             fetchMultiplePages();
         }
         // fetchMultiplePages();
@@ -138,32 +139,37 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     {/* style={{paddingTop: '350px'}} in loading div */ }
 
     return (
-        <div>
-            <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center flex-wrap
+        <>
+            <div className="h-0">
+                <ContactUs />
+            </div>
+            <div>
+                <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center flex-wrap
                 md:space-x-4 gap-y-8"
-            >
-                {
-                    // News Items
+                >
+                    {
+                        // News Items
 
-                    articles ?
-                        articles?.map((article, index) => {
-                            return (
-                                <NewsItem key={article.uuid} article={article} loading={loading} />
-                            )
-                        })
-                        :
-                        <h2>No articles found</h2>
-                }
-            </div>
-            <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center">
-                <div className="hidden md:block">
-                    <DefaultPagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                        articles ?
+                            articles?.map((article, index) => {
+                                return (
+                                    <NewsItem key={article.uuid} article={article} loading={loading} />
+                                )
+                            })
+                            :
+                            <h2>No articles found</h2>
+                    }
                 </div>
-                <div className="md:hidden">
-                    <SimplePagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center">
+                    <div className="hidden md:block">
+                        <DefaultPagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                    </div>
+                    <div className="md:hidden">
+                        <SimplePagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

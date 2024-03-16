@@ -7,30 +7,54 @@ import {
     Tooltip,
     Dialog,
 } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect } from "react";
 
-export default function ProfileCard({children}) {
+const ProfileCard = React.forwardRef(({ children }, ref) => {
     const [open, setOpen] = React.useState(false);
+    const [user, setUser] = React.useState({})
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+              const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/profile`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              });
+              const data = await response.json();
+              console.log(data)
+              let newUser = {
+                username: data?.data?.username,
+                email: data?.data?.email,
+              }
+                setUser(newUser)
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          fetchProfile();
+    }, [])
   const handleOpen = () => setOpen((cur) => !cur);
     return (
         <>
-        <div onClick={handleOpen}>{children}</div>
+        <div onClick={handleOpen} ref={ref}>{children}</div>
         <Dialog
             size="xs"
             open={open}
             handler={handleOpen}
             className="bg-transparent shadow-none"
         >
-            <Card className="w-96">
+            <Card className="w-96 mx-auto">
                 <CardHeader floated={false} className="h-80">
-                    <img src="https://docs.material-tailwind.com/img/team-3.jpg" alt="profile-picture" />
+                    <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80" alt="profile-picture" />
                 </CardHeader>
                 <CardBody className="text-center">
                     <Typography variant="h4" color="blue-gray" className="mb-2">
-                        Natalie Paisley
+                        {user?.username || "Tania Andrew"}
                     </Typography>
                     <Typography color="blue-gray" className="font-medium" textGradient>
-                        CEO / Co-Founder
+                        {user?.email || "abc@email.com"}
                     </Typography>
                 </CardBody>
                 <CardFooter className="flex justify-center gap-7 pt-2">
@@ -72,4 +96,6 @@ export default function ProfileCard({children}) {
         </Dialog>
         </>
     );
-}
+})
+
+export default ProfileCard;

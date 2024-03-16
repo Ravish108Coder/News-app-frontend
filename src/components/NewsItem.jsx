@@ -91,7 +91,7 @@ const NewsItem = ({ article, loading }) => {
                         {
                             !title || title === "[Removed]" ?
                                 "No Title" :
-                                String(title).length > 50 ? String(title).slice(0, 47) + "..." : title
+                                String(title).length > 90 ? String(title).slice(0, 87) + "..." : title
                         }
                     </Typography>
                     <Typography>

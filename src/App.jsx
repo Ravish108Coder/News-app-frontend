@@ -4,7 +4,6 @@ import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes, useLocation } from 'react-router-dom'
 import NewsItemsCont from './components/NewsItemsCont'
-import ContactUs from './components/ContactUs';
 import PrivateRoutes from './components/PrivateRoutes';
 import Navbar from './components/Navbar';
 import LoadingBar from 'react-top-loading-bar'
@@ -15,6 +14,8 @@ function App() {
   //TODO: - admin priviledge
 
   const [progress, setProgress] = useState(0)
+
+  
 
   const location = useLocation()
   return (
@@ -35,7 +36,6 @@ function App() {
           {/* protected routes */}
           <Route element={<PrivateRoutes />}>
             <Route exact path="/" element={<NewsItemsCont setProgress={setProgress} />} />
-            <Route exact path="/contact" element={<ContactUs />} />
             <Route exact path="/general" element={<NewsItemsCont setProgress={setProgress} category='general' />} />
             <Route exact path="/science" element={<NewsItemsCont setProgress={setProgress} category='science' />} />
             <Route exact path="/sports" element={<NewsItemsCont setProgress={setProgress} category='sports' />} />

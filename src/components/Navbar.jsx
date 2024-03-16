@@ -31,7 +31,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ProfileMenu from "./ProfileMenu";
 import { useLocation } from "react-router-dom";
-import LogOutBtn from "./LogOutBtn";
+import {useDrawer} from "../context/DrawerContext.jsx";
 
 // TODO: BUG: - fix the active list item
 
@@ -94,15 +94,15 @@ const NavListMenuItem = ({ icon, title, setOpenNav, setIsMobileMenuOpen }) => {
         // const location = window.location.pathname;
         // console.log(location)
         let category = location.split('/')[1]
-        if(category === '' || category==="contact") category = "general";
+        if (category === '' || category === "contact") category = "general";
         // console.log(category)
         setActiveList(category);
     }, [location])
 
     return (
-        <Link to={"/" + String(title).toLowerCase()}  onClick={()=>{
+        <Link to={"/" + String(title).toLowerCase()} onClick={() => {
             setActiveList(title)
-            setOpenNav(prev=>!prev)
+            setOpenNav(prev => !prev)
             setIsMobileMenuOpen(false)
         }} >
             <MenuItem className={`flex items-center gap-3 rounded-lg ${(activeList === String(title).toLowerCase()) ? 'bg-blue-gray-100' : 'bg-none'}
@@ -129,14 +129,14 @@ const NavListMenuItem = ({ icon, title, setOpenNav, setIsMobileMenuOpen }) => {
     )
 }
 
-function NavListMenu({setOpenNav, openNav}) {
+function NavListMenu({ setOpenNav, openNav }) {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
 
     const renderItems = navListMenuItems.map(
         ({ icon, title }, index) => (
-            <NavListMenuItem key={index} icon={icon} title={title}  setOpenNav={setOpenNav} setIsMobileMenuOpen={setIsMobileMenuOpen} />
+            <NavListMenuItem key={index} icon={icon} title={title} setOpenNav={setOpenNav} setIsMobileMenuOpen={setIsMobileMenuOpen} />
         ),
     );
 
@@ -184,7 +184,14 @@ function NavListMenu({setOpenNav, openNav}) {
     );
 }
 
-function NavList({setOpenNav, openNav}) {
+function NavList({ setOpenNav, openNav }) {
+    // Access setOpen function from the context
+    const { toggleDrawer } = useDrawer();
+
+    // Use setOpen function to toggle the drawer state
+    const handleToggleDrawer = () => {
+        toggleDrawer();
+    };
     return (
         <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
             <Link to="/" className="text-blue-gray font-medium">
@@ -196,14 +203,11 @@ function NavList({setOpenNav, openNav}) {
             </Link>
             <NavListMenu setOpenNav={setOpenNav} openNav={openNav} />
 
-
-            <Link to="/contact" className="text-blue-gray font-medium">
-                <ListItem className="flex items-center gap-2 py-2 pr-4">
-                    <Typography variant="small" color="blue-gray">
-                        Contact Us
-                    </Typography>
-                </ListItem>
-            </Link>
+            <ListItem onClick={handleToggleDrawer} className="flex items-center gap-2 py-2 pr-4">
+                <Typography variant="small" color="blue-gray">
+                    Contact Us
+                </Typography>
+            </ListItem>
 
         </List>
     );
@@ -245,6 +249,7 @@ export default function NavbarWithMegaMenu() {
                 const data = await response.json();
                 if (data?.status) {
                     setIsLoggedIn(false);
+                    localStorage.removeItem("token");
                     navigate('/signin');
                     toast.success(data?.message || "Success Notification !");
                 } else {
@@ -292,19 +297,19 @@ export default function NavbarWithMegaMenu() {
                     {/* either redux or prop drilling store user logged in info */}
                     {
                         !isLoggedIn &&
-                            <Link to={"/signin"}>
-                                <Button variant="text" size="sm" color="blue-gray">
-                                    Log In
-                                </Button>
-                            </Link>
+                        <Link to={"/signin"}>
+                            <Button variant="text" size="sm" color="blue-gray">
+                                Log In
+                            </Button>
+                        </Link>
                     }
                     {
                         !isLoggedIn &&
-                            <Link to={"/signup"}>
-                                <Button variant="gradient" size="sm">
-                                    Register
-                                </Button>
-                            </Link>
+                        <Link to={"/signup"}>
+                            <Button variant="gradient" size="sm">
+                                Register
+                            </Button>
+                        </Link>
                     }
                 </div>
                 <IconButton
@@ -320,11 +325,11 @@ export default function NavbarWithMegaMenu() {
                     )}
                 </IconButton>
             </div>
-            <Collapse  open={openNav}>
-            <div className="lg:hidden">
-                <NavList setOpenNav={setOpenNav} /></div>
+            <Collapse open={openNav}>
+                <div className="lg:hidden">
+                    <NavList setOpenNav={setOpenNav} /></div>
                 <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
-                {
+                    {
                         isLoggedIn
                         &&
                         <>
@@ -334,25 +339,25 @@ export default function NavbarWithMegaMenu() {
                             withBorder={true}
                             className="p-0.5 mr-3"
                         /> */}
-                        <ProfileMenu version="small" openNav={openNav} handleLogout={handleLogout} placement={"right-start"} />
+                            <ProfileMenu version="small" openNav={openNav} handleLogout={handleLogout} placement={"right-start"} />
                         </>
                     }
                     {/* either redux or prop drilling store user logged in info */}
                     {
                         !isLoggedIn &&
-                            <Link to={"/signin"}>
-                                <Button variant="text" size="sm" color="blue-gray">
-                                    Log In
-                                </Button>
-                            </Link>
+                        <Link to={"/signin"}>
+                            <Button variant="text" size="sm" color="blue-gray">
+                                Log In
+                            </Button>
+                        </Link>
                     }
                     {
                         !isLoggedIn &&
-                            <Link to={"/signup"}>
-                                <Button variant="gradient" size="sm">
-                                    Register
-                                </Button>
-                            </Link>
+                        <Link to={"/signup"}>
+                            <Button variant="gradient" size="sm">
+                                Register
+                            </Button>
+                        </Link>
                     }
                 </div>
             </Collapse>
