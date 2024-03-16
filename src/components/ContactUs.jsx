@@ -37,6 +37,8 @@ const ContactUs = () => {
         console.log(data);
         if(data?.status){
           toast.success("Email sent successfully");
+        }else{
+          toast.error("Error sending email");
         }
       }
       sendEmail();

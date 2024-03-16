@@ -133,10 +133,10 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         // OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
+    {/* loading ? <div className="absolute" style={{left: '47%', top: '45%'}}><Loading /></div> :  */}
     return (
         <>
         {
-        loading ? <div className="absolute" style={{left: '47%', top: '45%'}}><Loading /></div> : 
         <>
             <div className="h-0">
                 <ContactUs />
