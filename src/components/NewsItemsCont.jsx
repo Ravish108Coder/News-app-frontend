@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import NewsItem from "./NewsItem"
 import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
-import Loading from "./Loading";
 import { SavedArticles } from "../../data";
 import ContactUs from "./ContactUs";
 
@@ -100,7 +99,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         setArticlesLength(60);
         setProgress(100);
     }
-    let offline = true; // TODO: check if offline
+    let offline = false; // TODO: check if offline
     useEffect(() => {
         // console.log('category changed', category)
         setArticles(SavedArticles)
