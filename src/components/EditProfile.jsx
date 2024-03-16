@@ -47,7 +47,8 @@ const DialogBox = ({ open, setOpen, handleOpen, newProfile, setNewProfile, showP
       setOpen(false);
     }
   }, [])
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
     try {
       setProfileUpdadteBtnloading(true);
       const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/profile`, {
@@ -83,6 +84,7 @@ const DialogBox = ({ open, setOpen, handleOpen, newProfile, setNewProfile, showP
       className="bg-transparent shadow-none"
     >
       <Card className="mx-auto w-full max-w-[24rem]">
+      <form onSubmit={handleUpdateProfile}>
         <CardBody className="flex flex-col gap-4">
           <Typography
             style={{ textAlign: 'center' }}
@@ -128,7 +130,7 @@ const DialogBox = ({ open, setOpen, handleOpen, newProfile, setNewProfile, showP
           />
         </CardBody>
         <CardFooter className="pt-0">
-          <Button loading={profileUpdadteBtnloading} variant="gradient" onClick={handleUpdateProfile} fullWidth>
+          <Button type="submit" loading={profileUpdadteBtnloading} variant="gradient" fullWidth>
             Update Profile
           </Button>
           <Button disabled={profileUpdadteBtnloading} className="mt-4" variant="outlined" color="red" onClick={handleOpen} fullWidth>
@@ -136,6 +138,7 @@ const DialogBox = ({ open, setOpen, handleOpen, newProfile, setNewProfile, showP
           </Button>
 
         </CardFooter>
+            </form>
       </Card>
     </Dialog>
   )
