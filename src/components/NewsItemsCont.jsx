@@ -16,7 +16,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
     const [articles, setArticles] = useState([])
     const [page, setPage] = useState(1)
     const [categoryChanged, setCategoryChanged] = useState(false);
-
+    const prodenv = import.meta.env.VITE_PROD_ENV;
     const fetchData = async () => {
         setLoading(true); // Move setLoading inside the fetchData function to ensure it's always executed
         try {
@@ -99,7 +99,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         setArticlesLength(60);
         setProgress(100);
     }
-    let offline = true; // TODO: check if offline
+    const offline = (prodenv === "Development"); // TODO: check if offline
     useEffect(() => {
         // console.log('category changed', category)
         setArticles(SavedArticles)
