@@ -215,29 +215,9 @@ function NavList({ setOpenNav, openNav }) {
 
 export default function NavbarWithMegaMenu() {
     const [openNav, setOpenNav] = React.useState(false);
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const { isLoggedIn, setIsLoggedIn } = useDrawer();
 
     const navigate = useNavigate();
-    useEffect(() => {
-
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_SERVER}/api/auth/verify`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-                const data = await response.json();
-                if (data?.status) {
-                    setIsLoggedIn(true);
-                } else {
-                    toast.error(data?.message || "Something went wrong !");
-                }
-            } catch (error) {
-                toast.error(error?.message || "Something went wrong !");
-            }
-        }
-        fetchData();
-    }, []);
 
     const handleLogout = () => {
         const fetchData = async () => {

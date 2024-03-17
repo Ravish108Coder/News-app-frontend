@@ -6,10 +6,15 @@ const DrawerContext = createContext();
 // Create a provider component to wrap your app and provide the drawer state
 export const DrawerProvider = ({ children }) => {
     const [open, setOpen] = useState(false);
-
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const [user, setUser] = React.useState({})
     const value = {
         open: open,
         toggleDrawer: () => setOpen(prevOpen => !prevOpen),
+        isLoggedIn: isLoggedIn,
+        setIsLoggedIn: setIsLoggedIn,
+        user: user,
+        setUser: setUser
     };
 
     return <DrawerContext.Provider value={value}>{children}</DrawerContext.Provider>;
