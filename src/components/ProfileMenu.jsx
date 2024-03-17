@@ -10,10 +10,13 @@ import LogOutBtn from "./LogOutBtn";
 import { useEffect, useState } from "react";
 import EditProfile from "./EditProfile";
 import ProfileCard from "./ProfileCard";
+import { useDrawer } from "../context/DrawerContext";
 
 export default function ProfileMenu({ handleLogout, placement = "bottom-end", version, openNav }) {
   const [showMenu, setShowMenu] = useState(false);
   const [compVersion, setCompVersion] = useState('large');
+  const { user, setUser } = useDrawer();
+  const ProfileImage = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
   useEffect(() => {
     //   console.log('version', version)
     //   console.log((version==="large"));
@@ -33,7 +36,7 @@ export default function ProfileMenu({ handleLogout, placement = "bottom-end", ve
           variant="circular"
           alt="tania andrew"
           className="cursor-pointer"
-          src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+          src={user.hasOwnProperty('avatar') ? user.avatar : ProfileImage}
         />
       </MenuHandler>
       <MenuList className={(compVersion === "large") ? "hidden lg:block" : openNav ? "" : 'hidden'}>

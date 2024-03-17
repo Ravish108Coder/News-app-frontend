@@ -8,15 +8,55 @@ import {
     Dialog,
     Button,
 } from "@material-tailwind/react";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useDrawer } from "../context/DrawerContext";
 
 const ProfileCard = React.forwardRef(({ children }, ref) => {
     const [open, setOpen] = React.useState(false);
+    const [imageUploading, setImageUploading] = React.useState(false);
     const { user, setUser } = useDrawer();
     const fileInput = useRef(null);
     const handleOpen = () => setOpen((cur) => !cur);
-    const handleUploadPic = () => fileInput.current.click();
+    const handleUploadPic = () =>{
+        fileInput.current.click();
+    } 
+    const ProfileImage = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+    const handleFileChange =  (event) => {
+        const file = event.target.files[0];
+        const fileName = file?.name;
+        if(!(fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png'))){
+            console.log('Only image files (jpg, jpeg, png) are allowed!');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('image', file);
+        const UploadFunction = async () => {
+            try {
+                setImageUploading(true);
+                const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/upload`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'multipart/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    // Update user avatar in context
+                    setUser({ ...user, avatar: data.user.avatar });
+                    console.log('Image uploaded successfully:', data);
+                } else {
+                    console.error('Error uploading image:', data.message);
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }finally{
+                setImageUploading(false);
+            }
+        }
+        UploadFunction();
+    };
     return (
         <>
             <div onClick={handleOpen} ref={ref}>{children}</div>
@@ -28,11 +68,11 @@ const ProfileCard = React.forwardRef(({ children }, ref) => {
             >
                 <Card className="w-72 sm:w-96 mx-auto">
                     <CardHeader floated={false} className="h-80">
-                        <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80" alt="profile-picture" />
+                        <img src={user.hasOwnProperty('avatar') ? user.avatar : ProfileImage} alt="profile-picture" />
                     </CardHeader>
-                    <CardBody className="text-center">
-                        <input className="h-0" ref={fileInput} type="file" />
-                        <Button color="blue" onClick={handleUploadPic} size="sm" fullWidth variant="gradient" className="flex items-center justify-center -mt-8 mb-3 gap-3 ">
+                    <CardBody className="text-center cursor-pointer">
+                        <input name="image" multiple={false} className="h-0" ref={fileInput} type="file" accept="image/*" onChange={handleFileChange} />
+                        <Button loading={imageUploading} color="blue" onClick={handleUploadPic} size="lg"  variant="gradient" className="flex items-center justify-center -mt-8 mb-3 gap-3 w-full">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
