@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useDrawer } from '../context/DrawerContext';
+import Loading from './Loading';
 
 const PrivateRoutes = () => {
   const [isLoading, setIsLoading] = useState(true); // Added loading state
@@ -31,7 +32,8 @@ const PrivateRoutes = () => {
   }, [fetchData]);
 
   // Render the Outlet or Navigate based on auth and isLoading states
-  return isLoading ? null : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
+  // return isLoading ? null : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
+  return isLoading ? <Loading /> : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
 };
 
 export default PrivateRoutes;
