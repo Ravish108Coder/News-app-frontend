@@ -17,14 +17,14 @@ const ProfileCard = React.forwardRef(({ children }, ref) => {
     const { user, setUser } = useDrawer();
     const fileInput = useRef(null);
     const handleOpen = () => setOpen((cur) => !cur);
-    const handleUploadPic = () =>{
+    const handleUploadPic = () => {
         fileInput.current.click();
-    } 
+    }
     const ProfileImage = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-    const handleFileChange =  (event) => {
+    const handleFileChange = (event) => {
         const file = event.target.files[0];
         const fileName = file?.name;
-        if(!(fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png'))){
+        if (!(fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.png'))) {
             console.log('Only image files (jpg, jpeg, png) are allowed!');
             return;
         }
@@ -51,7 +51,7 @@ const ProfileCard = React.forwardRef(({ children }, ref) => {
                 }
             } catch (error) {
                 console.error('Error uploading image:', error);
-            }finally{
+            } finally {
                 setImageUploading(false);
             }
         }
@@ -64,15 +64,16 @@ const ProfileCard = React.forwardRef(({ children }, ref) => {
                 size="xs"
                 open={open}
                 handler={handleOpen}
-                className="bg-transparent shadow-none"
+                className="bg-transparent shadow-none flex justify-center"
             >
-                <Card className="w-72 sm:w-96 mx-auto">
-                    <CardHeader floated={false} className="h-80">
-                        <img src={user.hasOwnProperty('avatar') ? user.avatar : ProfileImage} alt="profile-picture" />
+                <Card className="w-80 sm:w-96">
+                    <CardHeader floated={false} className="sm:h-80 h-50 w-40 sm:w-52 md:w-64 lg:w-72 flex-1 shadow-md border border-gray-300 flex justify-center mx-auto ">
+                        <div className="object-cover"><img style={{ width: '100%' }} src={user.hasOwnProperty('avatar') ? user.avatar : ProfileImage} alt="profile-picture" /></div>
                     </CardHeader>
+
                     <CardBody className="text-center cursor-pointer">
                         <input name="image" multiple={false} className="h-0" ref={fileInput} type="file" accept="image/*" onChange={handleFileChange} />
-                        <Button loading={imageUploading} color="blue" onClick={handleUploadPic} size="lg"  variant="gradient" className="flex items-center justify-center -mt-8 mb-3 gap-3 w-full">
+                        <Button loading={imageUploading} color="blue" onClick={handleUploadPic} size="lg" variant="gradient" className="flex items-center justify-center -mt-8 mb-3 gap-3 w-full">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -96,41 +97,6 @@ const ProfileCard = React.forwardRef(({ children }, ref) => {
                             {user?.email || "abc@email.com"}
                         </Typography>
                     </CardBody>
-                    <CardFooter className="flex justify-center gap-7 pt-2">
-                        <Tooltip content="Like">
-                            <Typography
-                                as="a"
-                                href="#facebook"
-                                variant="lead"
-                                color="blue"
-                                textGradient
-                            >
-                                <i className="fab fa-facebook" />
-                            </Typography>
-                        </Tooltip>
-                        <Tooltip content="Follow">
-                            <Typography
-                                as="a"
-                                href="#twitter"
-                                variant="lead"
-                                color="light-blue"
-                                textGradient
-                            >
-                                <i className="fab fa-twitter" />
-                            </Typography>
-                        </Tooltip>
-                        <Tooltip content="Follow">
-                            <Typography
-                                as="a"
-                                href="#instagram"
-                                variant="lead"
-                                color="purple"
-                                textGradient
-                            >
-                                <i className="fab fa-instagram" />
-                            </Typography>
-                        </Tooltip>
-                    </CardFooter>
                 </Card>
             </Dialog>
         </>
