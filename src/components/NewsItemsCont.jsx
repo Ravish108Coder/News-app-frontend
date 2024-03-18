@@ -47,7 +47,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         try {
             setLoading(true);
             let Articles = [];
-            setProgress(30);
+            setProgress(50);
             for (let i = 1; i >= 0; i--) {
                 let url = `https://api.thenewsapi.com/v1/news/all?api_token=${import.meta.env.VITE_NEWS_API_KEY}&language=en&categories=${category}&page=${(2 * page) - i}`;
                 console.log(url)
