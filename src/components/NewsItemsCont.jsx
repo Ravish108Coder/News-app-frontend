@@ -132,42 +132,42 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         // OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
-    {/* loading ? <div className="absolute" style={{left: '47%', top: '45%'}}><Loading /></div> :  */}
+    {/* loading ? <div className="absolute" style={{left: '47%', top: '45%'}}><Loading /></div> :  */ }
     return (
         <>
-        {
-        <>
-            <div className="h-0">
-                <ContactUs />
-            </div>
-            <div>
-                <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center flex-wrap
+            {
+                <>
+                    <div className="h-0">
+                        <ContactUs />
+                    </div>
+                    <div>
+                        <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center flex-wrap
                 md:space-x-4 gap-y-8"
-                >
-                    {
-                        // News Items
+                        >
+                            {
+                                // News Items
 
-                        articles ?
-                            articles?.map((article, index) => {
-                                return (
-                                    <NewsItem key={article.uuid} article={article} loading={loading} />
-                                )
-                            })
-                            :
-                            <h2>No articles found</h2>
-                    }
-                </div>
-                <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center">
-                    <div className="hidden md:block">
-                        <DefaultPagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                                articles ?
+                                    articles?.map((article, index) => {
+                                        return (
+                                            <NewsItem key={article.uuid} article={article} loading={loading} />
+                                        )
+                                    })
+                                    :
+                                    <h2>No articles found</h2>
+                            }
+                        </div>
+                        <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center">
+                            <div className="hidden md:block">
+                                <DefaultPagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                            </div>
+                            <div className="md:hidden">
+                                <SimplePagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
+                            </div>
+                        </div>
                     </div>
-                    <div className="md:hidden">
-                        <SimplePagination pagSize={pagSize} articlesLength={articlesLength} setPage={setPage} fetchData={fetchData} setActive={setActive} active={active} />
-                    </div>
-                </div>
-            </div>
-            </>
-        }
+                </>
+            }
         </>
     )
 }
@@ -216,33 +216,35 @@ function DefaultPagination({ pagSize, articlesLength, setPage, fetchData, setAct
     };
 
     return (
-        <div className="flex items-center gap-4">
-            <Button
-                variant="text"
-                className="flex items-center gap-2"
-                onClick={prev}
-                disabled={active === 1}
-            >
-                <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
-            </Button>
-            <div className="flex items-center gap-2">
-                {Array.from({ length: pages }, (_, index) => (
-                    <IconButton key={index + 1} {...getItemProps(index + 1)}>
-                        {index + 1}
-                    </IconButton>
-                ))}
+        <div className="w-screen flex justify-center">
+            <div className="flex items-center gap-4 fixed bottom-2 bg-white rounded-3xl py-2 shadow-[0px_10px_40px_10px_#4a5568]">
+                <Button
+                    variant="text"
+                    className="flex items-center gap-2"
+                    onClick={prev}
+                    disabled={active === 1}
+                >
+                    <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+                </Button>
+                <div className="flex items-center gap-2">
+                    {Array.from({ length: pages }, (_, index) => (
+                        <IconButton key={index + 1} {...getItemProps(index + 1)}>
+                            {index + 1}
+                        </IconButton>
+                    ))}
+                </div>
+
+
+                <Button
+                    variant="text"
+                    className="flex items-center gap-2"
+                    onClick={next}
+                    disabled={active === pages}
+                >
+                    Next
+                    <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+                </Button>
             </div>
-
-
-            <Button
-                variant="text"
-                className="flex items-center gap-2"
-                onClick={next}
-                disabled={active === pages}
-            >
-                Next
-                <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
-            </Button>
         </div>
     );
 }
@@ -266,27 +268,29 @@ function SimplePagination({ pagSize, articlesLength, setPage, fetchData, setActi
     };
 
     return (
-        <div className="flex items-center gap-8">
-            <IconButton
-                size="sm"
-                variant="outlined"
-                onClick={prev}
-                disabled={active === 1}
-            >
-                <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
-            </IconButton>
-            <Typography color="gray" className="font-normal">
-                Page <strong className="text-gray-900">{active}</strong> of{" "}
-                <strong className="text-gray-900">{pages}</strong>
-            </Typography>
-            <IconButton
-                size="sm"
-                variant="outlined"
-                onClick={next}
-                disabled={active === pages}
-            >
-                <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
-            </IconButton>
+        <div className="w-screen flex justify-center">
+            <div className="flex items-center gap-8 fixed bottom-2 bg-white rounded-3xl py-2 px-4 shadow-[0px_10px_40px_10px_#4a5568]">
+                <IconButton
+                    size="sm"
+                    variant="outlined"
+                    onClick={prev}
+                    disabled={active === 1}
+                >
+                    <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
+                </IconButton>
+                <Typography color="gray" className="font-normal">
+                    Page <strong className="text-gray-900">{active}</strong> of{" "}
+                    <strong className="text-gray-900">{pages}</strong>
+                </Typography>
+                <IconButton
+                    size="sm"
+                    variant="outlined"
+                    onClick={next}
+                    disabled={active === pages}
+                >
+                    <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+                </IconButton>
+            </div>
         </div>
     );
 }
