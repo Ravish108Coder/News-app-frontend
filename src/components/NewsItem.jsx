@@ -15,6 +15,7 @@ import { useState } from "react";
 const NewsItem = ({ article, loading }) => {
     const { title, description, snippet, image_url, url } = article
     const urlToImage = image_url;
+    const newsImage = "https://t3.ftcdn.net/jpg/03/27/55/60/360_F_327556002_99c7QmZmwocLwF7ywQ68ChZaBry1DbtD.jpg"
     const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleImageLoad = () => {
@@ -73,7 +74,7 @@ const NewsItem = ({ article, loading }) => {
 
 
             <Card className="mt-6 w-96 relative" style={{ width: '384px', height: '480px', minWidth:'355px', minHeight:'441px' }}>
-                <CardHeader color="blue-gray" className="relative h-56">
+                <CardHeader color="blue-gray" style={{backgroundImage: `url(${newsImage})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="relative h-56">
                     <img
                         className="w-full h-full"
                         src={urlToImage ? urlToImage : noImageUrl}
@@ -83,7 +84,6 @@ const NewsItem = ({ article, loading }) => {
                         style={{
                             display: imageLoaded ? 'block' : 'none',
                         }}
-
                     />
                 </CardHeader>
                 <CardBody>
