@@ -31,7 +31,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ProfileMenu from "./ProfileMenu";
 import { useLocation } from "react-router-dom";
-import {useDrawer} from "../context/DrawerContext.jsx";
+import { useDrawer } from "../context/DrawerContext.jsx";
 
 // TODO: BUG: - fix the active list item
 
@@ -216,7 +216,7 @@ function NavList({ setOpenNav, openNav }) {
 export default function NavbarWithMegaMenu() {
     const [openNav, setOpenNav] = React.useState(false);
     const { isLoggedIn, setIsLoggedIn } = useDrawer();
-
+    const {isPrivateRoutesLoading, setisPrivateRoutesLoading} = useDrawer();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -230,6 +230,7 @@ export default function NavbarWithMegaMenu() {
                 if (data?.status) {
                     setIsLoggedIn(false);
                     localStorage.removeItem("token");
+                    localStorage.removeItem("user");
                     navigate('/signin');
                     toast.success(data?.message || "Success Notification !");
                 } else {
@@ -260,36 +261,29 @@ export default function NavbarWithMegaMenu() {
                 <div className="hidden lg:block">
                     <NavList setOpenNav={setOpenNav} openNav={openNav} />
                 </div>
-                <div className="hidden gap-2 lg:flex">
+                <div className="hidden gap-2 lg:flex cursor-pointer">
                     {
                         isLoggedIn
                         &&
                         <>
-                            {/* <Avatar
-                            src="https://docs.material-tailwind.com/img/face-2.jpg"
-                            alt="avatar"
-                            withBorder={true}
-                            className="p-0.5 mr-3"
-                        /> */}
                             <ProfileMenu version="large" handleLogout={handleLogout} />
                         </>
                     }
                     {/* either redux or prop drilling store user logged in info */}
                     {
                         !isLoggedIn &&
-                        <Link to={"/signin"}>
-                            <Button variant="text" size="sm" color="blue-gray">
-                                Log In
-                            </Button>
-                        </Link>
-                    }
-                    {
-                        !isLoggedIn &&
-                        <Link to={"/signup"}>
-                            <Button variant="gradient" size="sm">
-                                Register
-                            </Button>
-                        </Link>
+                        <>
+                            <Link to={isPrivateRoutesLoading ? "" : "/signin"}>
+                                <Button disabled={isPrivateRoutesLoading} variant="text" size="sm" color="blue-gray">
+                                    Log In
+                                </Button>
+                            </Link>
+                            <Link to={isPrivateRoutesLoading ? "" : "/signup"}>
+                                <Button disabled={isPrivateRoutesLoading} variant="gradient" size="sm">
+                                    Register
+                                </Button>
+                            </Link>
+                        </>
                     }
                 </div>
                 <IconButton
@@ -313,31 +307,24 @@ export default function NavbarWithMegaMenu() {
                         isLoggedIn
                         &&
                         <>
-                            {/* <Avatar
-                            src="https://docs.material-tailwind.com/img/face-2.jpg"
-                            alt="avatar"
-                            withBorder={true}
-                            className="p-0.5 mr-3"
-                        /> */}
                             <ProfileMenu version="small" openNav={openNav} handleLogout={handleLogout} placement={"right-start"} />
                         </>
                     }
                     {/* either redux or prop drilling store user logged in info */}
                     {
                         !isLoggedIn &&
-                        <Link to={"/signin"}>
-                            <Button variant="text" size="sm" color="blue-gray">
-                                Log In
-                            </Button>
-                        </Link>
-                    }
-                    {
-                        !isLoggedIn &&
-                        <Link to={"/signup"}>
-                            <Button variant="gradient" size="sm">
-                                Register
-                            </Button>
-                        </Link>
+                        <>
+                            <Link to={isPrivateRoutesLoading ? "" : "/signin"}>
+                                <Button disabled={isPrivateRoutesLoading} variant="text" size="sm" color="blue-gray">
+                                    Log In
+                                </Button>
+                            </Link>
+                            <Link to={isPrivateRoutesLoading ? "" : "/signup"}>
+                                <Button disabled={isPrivateRoutesLoading} variant="gradient" size="sm">
+                                    Register
+                                </Button>
+                            </Link>
+                        </>
                     }
                 </div>
             </Collapse>

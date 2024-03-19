@@ -5,6 +5,7 @@ const DrawerContext = createContext();
 
 // Create a provider component to wrap your app and provide the drawer state
 export const DrawerProvider = ({ children }) => {
+    const [isPrivateRoutesLoading, setisPrivateRoutesLoading] = useState(false); // Added loading state
     const [open, setOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [user, setUser] = React.useState({})
@@ -14,7 +15,9 @@ export const DrawerProvider = ({ children }) => {
         isLoggedIn: isLoggedIn,
         setIsLoggedIn: setIsLoggedIn,
         user: user,
-        setUser: setUser
+        setUser: setUser,
+        isPrivateRoutesLoading: isPrivateRoutesLoading, 
+        setisPrivateRoutesLoading: setisPrivateRoutesLoading
     };
 
     return <DrawerContext.Provider value={value}>{children}</DrawerContext.Provider>;

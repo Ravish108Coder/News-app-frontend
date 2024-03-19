@@ -4,11 +4,12 @@ import { useDrawer } from '../context/DrawerContext';
 import Loading from './Loading';
 
 const PrivateRoutes = () => {
-  const [isLoading, setIsLoading] = useState(true); // Added loading state
-  const {isLoggedIn, setIsLoggedIn} = useDrawer();
+  const {isLoggedIn, setIsLoggedIn, isPrivateRoutesLoading, setisPrivateRoutesLoading} = useDrawer();
   const {user, setUser} = useDrawer();
 
   const fetchData = useCallback(async () => {
+    // console.log('fetchData called');
+    setisPrivateRoutesLoading(true); // Set loading state to true before fetching data
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER}/api/auth/verify`, {
         method: "GET",
@@ -23,17 +24,28 @@ const PrivateRoutes = () => {
       } 
     } catch (error) {
     } finally {
-      setIsLoading(false); // Set loading state to false after fetching data
+      setisPrivateRoutesLoading(false); // Set loading state to false after fetching data
     }
   }, []);
 
   useEffect(() => {
-    fetchData(); // Call fetchData inside useEffect
-  }, [fetchData]);
+    // console.log(localStorage.getItem('token'));
+    if(localStorage.getItem('token')){
+      // console.log('condition true')
+      let currentUser = JSON.parse(localStorage.getItem('user'));
+      console.log(currentUser);
+      setUser(currentUser);
+      setIsLoggedIn(true);
+      setisPrivateRoutesLoading(false);
+    }else{
+      fetchData();
+    }
+    // fetchData(); // Call fetchData inside useEffect
+  }, []);
 
-  // Render the Outlet or Navigate based on auth and isLoading states
-  // return isLoading ? null : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
-  return isLoading ? <Loading /> : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
+  // Render the Outlet or Navigate based on auth and isPrivateRoutesLoading states
+  // return isPrivateRoutesLoading ? null : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
+  return isPrivateRoutesLoading ? <Loading /> : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
 };
 
 export default PrivateRoutes;

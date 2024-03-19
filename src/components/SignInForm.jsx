@@ -8,12 +8,14 @@ import {
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDrawer } from "../context/DrawerContext";
 
 export default function SimpleRegistrationForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {user, setUser, setIsLoggedIn} = useDrawer();
   const navigate = useNavigate();
 
   const handleSignInSubmit = (e) => {
@@ -36,6 +38,11 @@ export default function SimpleRegistrationForm() {
         if (data?.status) {
           setEmail('');
           setPassword('');
+          console.log(data?.user)
+          setUser(data?.user);
+          setIsLoggedIn(true);
+          localStorage.setItem('user', JSON.stringify(data?.user));
+          localStorage.setItem('token', data?.token);
           navigate('/');
           toast.success(data?.message || "Success Notification !");
         } else {
