@@ -24,17 +24,17 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             // const url = `https://newsapi.org/v2/top-headlines?category=${category}&country=in&apiKey=${apiKey}&page=${page}&pageSize=${pagSize}`;
             // const url = `https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}&locale=in&page=${page}$categories=${category}`;
             const url = `https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&locale=in&language=en&categories=${category}&page=${page}`;
-            console.log(url)
+            // console.log(url)
             setProgress(30);
             const response = await fetch(url);
             setProgress(70);
             const data = await response.json();
-            console.log(data?.data);
+            // console.log(data?.data);
             setArticles(data?.data);
-            console.log(data?.meta?.found)
+            // console.log(data?.meta?.found)
             let totalPosts = Number(data?.meta?.found);
             totalPosts = Math.min(totalPosts, 72);
-            console.log(totalPosts);
+            // console.log(totalPosts);
             setArticlesLength(totalPosts);
             setProgress(100);
         } catch (error) {
