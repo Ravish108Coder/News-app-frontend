@@ -50,21 +50,21 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
             setProgress(40);
             for (let i = 1; i >= 0; i--) {
                 let url = `https://api.thenewsapi.com/v1/news/all?api_token=${import.meta.env.VITE_NEWS_API_KEY}&language=en&categories=${category}&page=${(2 * page) - i}`;
-                console.log(url)
+                // console.log(url)
                 const response = await fetch(url);
                 if (i === 1) setProgress(70);
                 const data = await response.json();
-                console.log(data?.data);
+                // console.log(data?.data);
                 Articles = Articles.concat(data?.data);
                 let totalPosts = Number(data?.meta?.found);
                 totalPosts = Math.min(totalPosts, 72);
-                console.log(totalPosts);
+                // console.log(totalPosts);
                 setArticlesLength(totalPosts);
             }
             setArticles(Articles);
             setProgress(100);
             setLoading(false);
-            console.log(Articles);
+            // console.log(Articles);
         } catch (error) {
             console.log(error.message);
             setArticles([]);
