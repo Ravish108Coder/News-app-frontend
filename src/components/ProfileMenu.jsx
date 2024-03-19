@@ -36,7 +36,7 @@ export default function ProfileMenu({ handleLogout, placement = "bottom-end", ve
           variant="circular"
           alt="tania andrew"
           className="cursor-pointer"
-          src={user.hasOwnProperty('avatar') ? user.avatar : ProfileImage}
+          src={user?.hasOwnProperty('avatar') ? user?.avatar : ProfileImage}
         />
       </MenuHandler>
       <MenuList className={(compVersion === "large") ? "hidden lg:block" : openNav ? "" : 'hidden'}>

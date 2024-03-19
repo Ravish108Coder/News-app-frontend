@@ -68,7 +68,7 @@ const ProfileCard = React.forwardRef(({ children }, ref) => {
             >
                 <Card className="w-80 sm:w-96 py-3">
                     <CardHeader floated={false} className="sm:h-80 h-50 w-64 sm:w-80 shadow-md border border-gray-300 flex justify-center mx-auto ">
-                        <img style={{ objectFit: 'cover' }} src={user.hasOwnProperty('avatar') ? user.avatar : ProfileImage} alt="profile-picture" />
+                        <img style={{ objectFit: 'cover' }} src={ user?.avatar || ProfileImage} alt="profile-picture" />
                     </CardHeader>
 
                     <CardBody className="text-center cursor-pointer">
