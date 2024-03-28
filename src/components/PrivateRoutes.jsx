@@ -8,6 +8,7 @@ const PrivateRoutes = () => {
   const {user, setUser} = useDrawer();
 
   const fetchData = useCallback(async () => {
+    localStorage.removeItem('token');
     // console.log('fetchData called');
     setisPrivateRoutesLoading(true); // Set loading state to true before fetching data
     try {
