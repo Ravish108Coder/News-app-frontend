@@ -125,7 +125,7 @@ const DeleteAccountModal = React.forwardRef(({ children }, ref) => {
                             <p className={`text-sm text-red-900 ml-2 -mt-4 ${errorType === "captchaError" ? "block" : "hidden"}`}>Wrong captcha...</p>
                         </CardBody>
 
-                        <CardFooter className="pt-0 flex justify-end space-x-4">
+                        <CardFooter className="pt-0 flex justify-between sm:justify-end space-x-4">
                             <Button variant="filled" color="amber" onClick={handleOpen}>
                                 Cancel
                             </Button>
