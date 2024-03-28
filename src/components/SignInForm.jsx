@@ -38,7 +38,7 @@ export default function SimpleRegistrationForm() {
         if (data?.status) {
           setEmail('');
           setPassword('');
-          console.log(data?.user)
+          // console.log(data?.user)
           setUser(data?.user);
           setIsLoggedIn(true);
           // localStorage.setItem('user', JSON.stringify(data?.user));

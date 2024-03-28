@@ -24,9 +24,9 @@ const DeleteAccountModal = React.forwardRef(({ children }, ref) => {
     const [errorType, setErrorType] = React.useState("none")
     const navigate = useNavigate()
 
-      const handleDeleteAccount = async (e) => {
+    const handleDeleteAccount = async (e) => {
         e.preventDefault()
-        if(inputCaptcha !== captcha){
+        if (inputCaptcha !== captcha) {
             setInputCaptcha("")
             setErrorType('captchaError')
             setCaptcha(generateCaptcha(6));
@@ -47,18 +47,18 @@ const DeleteAccountModal = React.forwardRef(({ children }, ref) => {
                 toast.success(data.message)
                 handleOpen()
                 navigate('/signin')
-            }else{
+            } else {
                 setErrorType('passError')
                 console.log(data?.message)
             }
         } catch (error) {
             console.log(error);
-        }finally{
+        } finally {
             setPassword("");
             setInputCaptcha("")
             setCaptcha(generateCaptcha(6));
         }
-      }
+    }
     function generateCaptcha(length) {
         const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         let captcha = "";
@@ -87,46 +87,48 @@ const DeleteAccountModal = React.forwardRef(({ children }, ref) => {
                 className="bg-transparent shadow-none"
             >
                 <Card className="mx-auto w-full max-w-[24rem]">
-                <form onSubmit={handleDeleteAccount}>
-                    <CardBody className="flex flex-col gap-4">
-                        <Typography variant="h4" color="blue-gray">
-                            Are you sure you want to delete your account?
-                        </Typography>
-                        <Typography
-                            className="mb-3 font-normal"
-                            variant="paragraph"
-                            color="gray"
-                        >
-                            Enter your password to continue.
-                        </Typography>
-                        <Typography className="-mb-2" variant="h6">
-                            Your Password
-                        </Typography>
-                        <Input label="Password" type={type} size="lg" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="*******"
-                         icon={<i onClick={handleInputTypeChange} className={`${type === "password" ? "fa-solid fa-eye cursor-pointer" : "fa-solid fa-eye-slash cursor-pointer"}`} />} required />
-                         <p className={`text-sm text-red-900 ml-2 -mt-4 ${errorType === "passError" ? "block" : "hidden"}`}>Wrong Password...</p>
-                        <div className="flex space-x-2 items-center">
-                            <Input label="Captcha" type="text" value={inputCaptcha} onChange={(e)=>setInputCaptcha(e.target.value)} minLength={6} maxLength={6}
-                            placeholder="Exact 6 length"
-                              required />
-                            <p onClick={()=>setCaptcha(generateCaptcha(6))} className="mr-4 cursor-pointer"><i className="fa-solid fa-rotate fa-lg"></i></p>
-                            <div className="rounded-lg text-lg text-white bg-gradient-to-r from-purple-500 to-pink-500" style={{ border: "3px solid red", display: 'inline', width: '40%' }}>
-                                <span className=" p-2 inline-block tracking-widest">
-                                    {captcha}
-                                </span>
+                    <form onSubmit={handleDeleteAccount}>
+                        <CardBody className="flex flex-col gap-4">
+                            <Typography variant="h4" color="blue-gray">
+                                Are you sure you want to delete your account?
+                            </Typography>
+                            <Typography
+                                className="mb-3 font-normal"
+                                variant="paragraph"
+                                color="gray"
+                            >
+                                Enter your password to continue.
+                            </Typography>
+                            <Typography className="-mb-2" variant="h6">
+                                Your Password
+                            </Typography>
+                            <Input label="Password" type={type} size="lg" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="*******"
+                                icon={<i onClick={handleInputTypeChange} className={`${type === "password" ? "fa-solid fa-eye cursor-pointer" : "fa-solid fa-eye-slash cursor-pointer"}`} />} required />
+                            <p className={`text-sm text-red-900 ml-2 -mt-4 ${errorType === "passError" ? "block" : "hidden"}`}>Wrong Password...</p>
+                            <div className="flex space-x-2 items-center">
+                                <Input
+                                    containerProps={{ className: "min-w-[0]" }}
+                                    label="Captcha" type="text" value={inputCaptcha} onChange={(e) => setInputCaptcha(e.target.value)} minLength={6} maxLength={6}
+                                    placeholder="Exact 6 length"
+                                    required />
+                                <p onClick={() => setCaptcha(generateCaptcha(6))} className="mr-4 cursor-pointer"><i className="fa-solid fa-rotate fa-lg"></i></p>
+                                <div className="rounded-lg text-lg text-white bg-gradient-to-r from-purple-500 to-pink-500" style={{ border: "3px solid red", display: 'inline', width: '40%' }}>
+                                    <span className=" p-2 inline-block tracking-widest">
+                                        {captcha}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <p className={`text-sm text-red-900 ml-2 -mt-4 ${errorType === "captchaError" ? "block" : "hidden"}`}>Wrong captcha...</p>
-                    </CardBody>
+                            <p className={`text-sm text-red-900 ml-2 -mt-4 ${errorType === "captchaError" ? "block" : "hidden"}`}>Wrong captcha...</p>
+                        </CardBody>
 
-                    <CardFooter className="pt-0 flex justify-end space-x-4">
-                        <Button variant="filled" color="amber" onClick={handleOpen}>
-                            Cancel
-                        </Button>
-                        <Button type="submit" variant="gradient" >
-                            Confirm
-                        </Button>
-                    </CardFooter>
+                        <CardFooter className="pt-0 flex justify-end space-x-4">
+                            <Button variant="filled" color="amber" onClick={handleOpen}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" variant="gradient" >
+                                Confirm
+                            </Button>
+                        </CardFooter>
                     </form>
 
                 </Card>
