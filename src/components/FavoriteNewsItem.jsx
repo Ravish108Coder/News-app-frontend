@@ -15,8 +15,8 @@ function IconButtonDefault({deleteFromFavorite}) {
     return (
         deleteFromFavorite ?
         <Spinner /> :
-    <IconButton size="md" color="red">
-        <i className="fa-solid fa-trash"></i>
+    <IconButton size="md" color="amber">
+        <i className="fa-solid fa-trash fa-xl"></i>
     </IconButton>
     );
 }
