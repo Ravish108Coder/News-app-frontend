@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import FavoriteNewsItem from "./FavoriteNewsItem"
 import ContactUs from "./ContactUs"
 
+// new commit due to queued in vercel build
+
 const FavoriteNewsItemCont = () => {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(false)
