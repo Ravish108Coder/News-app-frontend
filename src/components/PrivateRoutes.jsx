@@ -30,16 +30,16 @@ const PrivateRoutes = () => {
 
   useEffect(() => {
     // console.log(localStorage.getItem('token'));
-    if(localStorage.getItem('token')){
-      // console.log('condition true')
-      let currentUser = JSON.parse(localStorage.getItem('user'));
-      console.log(currentUser);
-      setUser(currentUser);
-      setIsLoggedIn(true);
-      setisPrivateRoutesLoading(false);
-    }else{
+    // if(localStorage.getItem('token')){
+    //   // console.log('condition true')
+    //   let currentUser = JSON.parse(localStorage.getItem('user'));
+    //   console.log(currentUser);
+    //   setUser(currentUser);
+    //   setIsLoggedIn(true);
+    //   setisPrivateRoutesLoading(false);
+    // }else{
       fetchData();
-    }
+    // }
     // fetchData(); // Call fetchData inside useEffect
   }, []);
 
