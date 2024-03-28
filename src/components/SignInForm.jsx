@@ -41,7 +41,7 @@ export default function SimpleRegistrationForm() {
           console.log(data?.user)
           setUser(data?.user);
           setIsLoggedIn(true);
-          localStorage.setItem('user', JSON.stringify(data?.user));
+          // localStorage.setItem('user', JSON.stringify(data?.user));
           localStorage.setItem('token', data?.token);
           navigate('/');
           toast.success(data?.message || "Success Notification !");

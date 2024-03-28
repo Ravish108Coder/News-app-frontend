@@ -266,6 +266,7 @@ export default function NavbarWithMegaMenu() {
                         isLoggedIn
                         &&
                         <>
+                        
                             <ProfileMenu version="large" handleLogout={handleLogout} />
                         </>
                     }

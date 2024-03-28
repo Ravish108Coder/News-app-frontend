@@ -8,7 +8,7 @@ export const DrawerProvider = ({ children }) => {
     const [isPrivateRoutesLoading, setisPrivateRoutesLoading] = useState(false); // Added loading state
     const [open, setOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-    const [user, setUser] = React.useState({})
+    const [user, setUser] = React.useState(null)
     const value = {
         open: open,
         toggleDrawer: () => setOpen(prevOpen => !prevOpen),

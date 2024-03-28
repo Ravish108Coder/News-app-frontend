@@ -8,6 +8,7 @@ import PrivateRoutes from './components/PrivateRoutes';
 import Navbar from './components/Navbar';
 import LoadingBar from 'react-top-loading-bar'
 import { useState } from 'react';
+import FavoriteNewsItemCont from './components/FavoriteNewsItemCont';
 
 function App() {
   //TODO: - add protected routes functionality
@@ -45,6 +46,7 @@ function App() {
             <Route exact path="/tech" element={<NewsItemsCont setProgress={setProgress} category='tech' />} />
             <Route exact path="/politics" element={<NewsItemsCont setProgress={setProgress} category='politics' />} />
             <Route exact path="/food" element={<NewsItemsCont setProgress={setProgress} category='food' />} />
+            <Route exact path="/bookmark" element={<FavoriteNewsItemCont />} />
           </Route>
 
           <Route path="*" element={<h1>404 Not Found</h1>} />

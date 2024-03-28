@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
     Card,
     CardHeader,
@@ -6,34 +7,22 @@ import {
     Typography,
     Button,
 } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
-
-// TODO: pagination krna hai aur category wise news show krna hai routes ke through shayad optional
-// TODO: strong authentication plus pagination
-// TODO: infinite scroll, lazy loading shaayad, progress, firebase shayad google auth, nodemailer for gmail 
 
 import { IconButton } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
-function IconButtonDefault({isBookmarked}) {
-    return (
-        !isBookmarked ?
-            (<IconButton size="md" color="red">
-                <i className="fas fa-heart" />
-            </IconButton>)
-            :
-            (<span>
-                <Link to={"/bookmark"} >
-                {/* <i className="fa-solid fa-square-check fa-2xl" style={{color: '#63E6BE'}}></i> */}
-                <i className="fa-solid fa-bookmark fa-2xl" style={{color: '#395373'}}></i>
-                </Link>
-            </span>)
+function IconButtonDefault() {
+    return (<IconButton size="md" color="red">
+        <i className="fa-solid fa-trash"></i>
+    </IconButton>
     );
 }
 
 
-const NewsItem = ({ article, loading }) => {
-    const [isBookmarked, setIsBookmarked] = useState(false);
+
+
+
+const FavoriteNewsItem = ({ article, loading, handleDeleteFromFavorite }) => {
     const { title, description, image_url, url } = article
     const urlToImage = image_url;
     const newsImage = "https://t3.ftcdn.net/jpg/03/27/55/60/360_F_327556002_99c7QmZmwocLwF7ywQ68ChZaBry1DbtD.jpg"
@@ -48,50 +37,7 @@ const NewsItem = ({ article, loading }) => {
     };
     const noImageUrl = "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-21.png";
 
-    const handleAddToFavorite = async () => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/addToFavorite`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(article)
-            }
-            );
-            const data = await response.json();
-            if (data.success) {
-                setIsBookmarked(true);
-            }
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-
-    useEffect(() => {
-        const checkIfAlreadyFavorite = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/isAlreadyFavorite`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${localStorage.getItem('token')}`
-                        },
-                        body: JSON.stringify(article)
-                    }
-                );
-                const data = await response.json();
-                if(data.success){
-                    setIsBookmarked(true)
-                }
-            } catch (error) {
-                console.log(error.message)
-            }
-        }
-        checkIfAlreadyFavorite();
-    }, [])
+    
 
 
     return (
@@ -175,12 +121,12 @@ const NewsItem = ({ article, loading }) => {
                     <a href={url} target="_blank">
                         <Button>Read More</Button>
                     </a>
-                    <span className="text-black" onClick={handleAddToFavorite}>
-                        <IconButtonDefault isBookmarked={isBookmarked} />
+                    <span className="text-black" onClick={() => handleDeleteFromFavorite(article)} >
+                        <IconButtonDefault />
                     </span>
                 </CardFooter>
             </Card>
     )
 }
 
-export default NewsItem
+export default FavoriteNewsItem

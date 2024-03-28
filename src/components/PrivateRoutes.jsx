@@ -45,7 +45,7 @@ const PrivateRoutes = () => {
 
   // Render the Outlet or Navigate based on auth and isPrivateRoutesLoading states
   // return isPrivateRoutesLoading ? null : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
-  return isPrivateRoutesLoading ? <Loading /> : localStorage.getItem('token') ? <Outlet /> : <Navigate to='/signin' />;
+  return isPrivateRoutesLoading ? <Loading /> : localStorage.getItem('token')? <Outlet /> : <Navigate to='/signin' />;
 };
 
 export default PrivateRoutes;
