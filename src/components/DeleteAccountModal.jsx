@@ -107,7 +107,11 @@ const DeleteAccountModal = React.forwardRef(({ children }, ref) => {
                             <p className={`text-sm text-red-900 ml-2 -mt-4 ${errorType === "passError" ? "block" : "hidden"}`}>Wrong Password...</p>
                             <div className="flex space-x-2 items-center">
                                 <Input
-                                    containerProps={{ className: "min-w-[0]" }}
+                                    // containerProps={{ className: "min-w-[0] !important" }}
+                                    containerProps={{
+                                        style: { minWidth: '0' }
+                                    }}
+                                    // containerProps={styles.inputContainer={minWidth: "0"}}
                                     label="Captcha" type="text" value={inputCaptcha} onChange={(e) => setInputCaptcha(e.target.value)} minLength={6} maxLength={6}
                                     placeholder="Exact 6 length"
                                     required />
