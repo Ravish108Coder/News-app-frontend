@@ -8,7 +8,8 @@ const FavoriteNewsItemCont = () => {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const handleDeleteFromFavorite = async (article) => {
+    const handleDeleteFromFavorite = async (article, setDeleteFromFavorite) => {
+        setDeleteFromFavorite(true)
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/deleteFromFavorite`,
                 {
@@ -28,6 +29,8 @@ const FavoriteNewsItemCont = () => {
             }
         } catch (error) {
             console.log(error.message)
+        }finally{
+            setDeleteFromFavorite(false)
         }
     }
 

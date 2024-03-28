@@ -14,9 +14,15 @@ import { useEffect, useState } from "react";
 
 import { IconButton } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { Spinner } from "@material-tailwind/react";
+ 
 
-function IconButtonDefault({isBookmarked}) {
+
+function IconButtonDefault({isBookmarked, addingToFavorite}) {
     return (
+        addingToFavorite ?
+        <Spinner />
+        :
         !isBookmarked ?
             (<IconButton size="md" color="red">
                 <i className="fas fa-heart" />
@@ -38,6 +44,7 @@ const NewsItem = ({ article, loading }) => {
     const urlToImage = image_url;
     const newsImage = "https://t3.ftcdn.net/jpg/03/27/55/60/360_F_327556002_99c7QmZmwocLwF7ywQ68ChZaBry1DbtD.jpg"
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [addingToFavorite, setAddingToFavorite] = useState(false);
 
     const handleImageLoad = () => {
         setImageLoaded(true);
@@ -49,6 +56,7 @@ const NewsItem = ({ article, loading }) => {
     const noImageUrl = "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-21.png";
 
     const handleAddToFavorite = async () => {
+        setAddingToFavorite(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/addToFavorite`,
             {
@@ -66,6 +74,8 @@ const NewsItem = ({ article, loading }) => {
             }
         } catch (error) {
             console.log(error.message)
+        }finally{
+            setAddingToFavorite(false);
         }
     }
 
@@ -176,7 +186,7 @@ const NewsItem = ({ article, loading }) => {
                         <Button>Read More</Button>
                     </a>
                     <span className="text-black" onClick={handleAddToFavorite}>
-                        <IconButtonDefault isBookmarked={isBookmarked} />
+                        <IconButtonDefault isBookmarked={isBookmarked} addingToFavorite={addingToFavorite} />
                     </span>
                 </CardFooter>
             </Card>

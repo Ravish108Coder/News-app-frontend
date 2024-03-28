@@ -6,13 +6,16 @@ import {
     CardFooter,
     Typography,
     Button,
+    Spinner,
 } from "@material-tailwind/react";
 
 import { IconButton } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 
-function IconButtonDefault() {
-    return (<IconButton size="md" color="red">
+function IconButtonDefault({deleteFromFavorite}) {
+    return (
+        deleteFromFavorite ?
+        <Spinner /> :
+    <IconButton size="md" color="red">
         <i className="fa-solid fa-trash"></i>
     </IconButton>
     );
@@ -27,6 +30,7 @@ const FavoriteNewsItem = ({ article, loading, handleDeleteFromFavorite }) => {
     const urlToImage = image_url;
     const newsImage = "https://t3.ftcdn.net/jpg/03/27/55/60/360_F_327556002_99c7QmZmwocLwF7ywQ68ChZaBry1DbtD.jpg"
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [deleteFromFavorite, setDeleteFromFavorite] = useState(false);
 
     const handleImageLoad = () => {
         setImageLoaded(true);
@@ -121,8 +125,8 @@ const FavoriteNewsItem = ({ article, loading, handleDeleteFromFavorite }) => {
                     <a href={url} target="_blank">
                         <Button>Read More</Button>
                     </a>
-                    <span className="text-black" onClick={() => handleDeleteFromFavorite(article)} >
-                        <IconButtonDefault />
+                    <span className="text-black" onClick={() => handleDeleteFromFavorite(article, setDeleteFromFavorite)} >
+                        <IconButtonDefault deleteFromFavorite={deleteFromFavorite} />
                     </span>
                 </CardFooter>
             </Card>
