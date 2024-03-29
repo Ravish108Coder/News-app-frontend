@@ -32,6 +32,7 @@ import { toast } from "react-toastify";
 import ProfileMenu from "./ProfileMenu";
 import { useLocation } from "react-router-dom";
 import { useDrawer } from "../context/DrawerContext.jsx";
+import NavbarSearchBtn from "./NavbarSearchBtn";
 
 // TODO: BUG: - fix the active list item
 
@@ -104,28 +105,29 @@ const NavListMenuItem = ({ icon, title, setOpenNav, setIsMobileMenuOpen }) => {
             setActiveList(title)
             setOpenNav(prev => !prev)
             setIsMobileMenuOpen(false)
-        }} >
+        }}
+            className={`${title === "Food" ? 'col-span-2 sm:col-span-1' : ''}`}
+        >
             <MenuItem className={`flex items-center gap-3 rounded-lg ${(activeList === String(title).toLowerCase()) ? 'bg-blue-gray-100' : 'bg-none'}
-            `
-            }>
-                <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
-                    {" "}
-                    {React.createElement(icon, {
-                        strokeWidth: 2,
-                        className: "h-6 text-gray-900 w-6",
-                    })}
-                </div>
-                <div>
-                    <Typography
-                        variant="h6"
-                        color="blue-gray"
-                        className="flex items-center text-sm font-bold"
-                    >
-                        {title}
-                    </Typography>
-                </div>
-            </MenuItem>
-        </Link>
+            ` }>
+            <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
+                {" "}
+                {React.createElement(icon, {
+                    strokeWidth: 2,
+                    className: "h-6 text-gray-900 w-6",
+                })}
+            </div>
+            <div>
+                <Typography
+                    variant="h6"
+                    color="blue-gray"
+                    className="flex items-center text-sm font-bold"
+                >
+                    {title}
+                </Typography>
+            </div>
+        </MenuItem>
+        </Link >
     )
 }
 
@@ -177,8 +179,8 @@ function NavListMenu({ setOpenNav, openNav }) {
                     </ul>
                 </MenuList>
             </Menu>
-            <div className="block lg:hidden">
-                <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
+            <div className=" lg:hidden">
+                <Collapse className="grid grid-cols-2" open={isMobileMenuOpen}>{renderItems}</Collapse>
             </div>
         </React.Fragment>
     );
@@ -203,11 +205,13 @@ function NavList({ setOpenNav, openNav }) {
             </Link>
             <NavListMenu setOpenNav={setOpenNav} openNav={openNav} />
 
-            <ListItem onClick={handleToggleDrawer} className="flex items-center gap-2 py-2 pr-4">
+            <ListItem onClick={handleToggleDrawer} className="flex items-start gap-2 py-2 pr-4 mb-4">
                 <Typography variant="small" color="blue-gray">
                     Contact Us
                 </Typography>
             </ListItem>
+
+            <NavbarSearchBtn />
 
         </List>
     );
@@ -216,7 +220,7 @@ function NavList({ setOpenNav, openNav }) {
 export default function NavbarWithMegaMenu() {
     const [openNav, setOpenNav] = React.useState(false);
     const { isLoggedIn, setIsLoggedIn } = useDrawer();
-    const {isPrivateRoutesLoading, setisPrivateRoutesLoading} = useDrawer();
+    const { isPrivateRoutesLoading, setisPrivateRoutesLoading } = useDrawer();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -266,7 +270,7 @@ export default function NavbarWithMegaMenu() {
                         isLoggedIn
                         &&
                         <>
-                        
+
                             <ProfileMenu version="large" handleLogout={handleLogout} />
                         </>
                     }

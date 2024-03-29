@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import LoadingBar from 'react-top-loading-bar'
 import { useState } from 'react';
 import FavoriteNewsItemCont from './components/FavoriteNewsItemCont';
+import FilterNewsItemCont from './components/FilterNewsItemCont';
 
 function App() {
   //TODO: - add protected routes functionality
@@ -47,9 +48,10 @@ function App() {
             <Route exact path="/politics" element={<NewsItemsCont setProgress={setProgress} category='politics' />} />
             <Route exact path="/food" element={<NewsItemsCont setProgress={setProgress} category='food' />} />
             <Route exact path="/bookmark" element={<FavoriteNewsItemCont />} />
+            <Route exact path="/search/:id" element={<FilterNewsItemCont setProgress={setProgress} />} />
+            <Route path="*" element={<h1>404 Not Found</h1>} />
           </Route>
 
-          <Route path="*" element={<h1>404 Not Found</h1>} />
 
         </Routes>
     </>
