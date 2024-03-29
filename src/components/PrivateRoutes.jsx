@@ -8,7 +8,7 @@ const PrivateRoutes = () => {
   const {user, setUser} = useDrawer();
 
   const fetchData = useCallback(async () => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     // console.log('fetchData called');
     setisPrivateRoutesLoading(true); // Set loading state to true before fetching data
     try {
@@ -22,7 +22,9 @@ const PrivateRoutes = () => {
         setUser(data?.user);
         localStorage.setItem("token", data?.token);
         setIsLoggedIn(true);
-      } 
+      } else {
+        console.log(data?.message || "Something went wrong !")
+      }
     } catch (error) {
     } finally {
       setisPrivateRoutesLoading(false); // Set loading state to false after fetching data
@@ -39,7 +41,7 @@ const PrivateRoutes = () => {
     //   setIsLoggedIn(true);
     //   setisPrivateRoutesLoading(false);
     // }else{
-      fetchData();
+      if(!user) fetchData();
     // }
     // fetchData(); // Call fetchData inside useEffect
   }, []);
