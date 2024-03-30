@@ -8,7 +8,7 @@ const PrivateRoutes = () => {
   const {user, setUser} = useDrawer();
 
   const fetchData = useCallback(async () => {
-    // localStorage.removeItem('token');
+    localStorage.getItem('token')&& localStorage.removeItem('token');
     // console.log('fetchData called');
     setisPrivateRoutesLoading(true); // Set loading state to true before fetching data
     try {
@@ -32,18 +32,7 @@ const PrivateRoutes = () => {
   }, []);
 
   useEffect(() => {
-    // console.log(localStorage.getItem('token'));
-    // if(localStorage.getItem('token')){
-    //   // console.log('condition true')
-    //   let currentUser = JSON.parse(localStorage.getItem('user'));
-    //   console.log(currentUser);
-    //   setUser(currentUser);
-    //   setIsLoggedIn(true);
-    //   setisPrivateRoutesLoading(false);
-    // }else{
       if(!user) fetchData();
-    // }
-    // fetchData(); // Call fetchData inside useEffect
   }, []);
 
   // Render the Outlet or Navigate based on auth and isPrivateRoutesLoading states

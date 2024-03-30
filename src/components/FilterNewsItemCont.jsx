@@ -5,17 +5,19 @@ import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { SavedArticles } from "../../data";
 import ContactUs from "./ContactUs";
+import { useDrawer } from "../context/DrawerContext";
 
 // TODO: - add loading spinner
 
 const FilterNewsItemCont = ({setProgress}) => {
+    const {user} = useDrawer();
     const [loading, setLoading] = useState(false)
     const [active, setActive] = React.useState(1);
     const [pageSize, setPageSize] = useState(6);
     const [articlesLength, setArticlesLength] = useState(1)
     const [articles, setArticles] = useState([])
     const [page, setPage] = useState(1)
-    const [categoryChanged, setCategoryChanged] = useState(true)
+    const [searchChanged, setSearchChanged] = useState(true)
     const search = window.location.pathname.split('/search/')[1].toLowerCase()
 
     const fetchMultiplePages = async () => {
@@ -56,22 +58,34 @@ const FilterNewsItemCont = ({setProgress}) => {
     }
 
 
+    const [initialized, setInitialized] = useState(false);
+
     useEffect(() => {
         // setArticles(SavedArticles)
-        if (true) {
-                fetchMultiplePages();
-        } else {
+        // setSearchChanged(true)
+        if(!user) return;
+        console.log(search)
+        console.log(page)
+        if (page !== 1) {
             setActive(1);
             setPage(1);
+            console.log('hi')
+        } else { // Only fetch if not initialized
+            fetchMultiplePages().then(() => setInitialized(true));
         }
-        // setCategoryChanged(true)
-    }, [search,active]); // Include category in the dependency array
-
-    // useEffect(() => {
-    //     if (!categoryChanged) return;
-    //         fetchMultiplePages();
-    // }, [active]); 
-
+        console.log('hi2')
+    }, [search]); // Add 'search' as a dependency
+    
+    useEffect(() => {
+        console.log('hi3')
+        // console.log(searchChanged)
+        if (!initialized) {
+            return;
+        }
+        console.log('hi4')
+        fetchMultiplePages();
+    }, [active]);
+    
     return (
         <>
             {
