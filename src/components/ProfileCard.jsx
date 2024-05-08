@@ -8,18 +8,44 @@ import {
     Dialog,
     Button,
 } from "@material-tailwind/react";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDrawer } from "../context/DrawerContext";
 
 const ProfileCard = React.forwardRef(({ children }, ref) => {
     const [open, setOpen] = React.useState(false);
     const [imageUploading, setImageUploading] = React.useState(false);
-    const { user, setUser } = useDrawer();
+    // const { user, setUser } = useDrawer();
     const fileInput = useRef(null);
     const handleOpen = () => setOpen((cur) => !cur);
     const handleUploadPic = () => {
         fileInput.current.click();
     }
+    const [user, setUser] = React.useState({})
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/profile`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await response.json();
+        if(data?.status){
+          let newUser = {
+            name: data?.data?.username,
+            email: data?.data?.email,
+            avatar: data?.data?.avatar
+          }
+          setUser(newUser)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchProfile();
+  }, [])
     const ProfileImage = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -91,7 +117,7 @@ const ProfileCard = React.forwardRef(({ children }, ref) => {
                             Upload Pic
                         </Button>
                         <Typography variant="h4" color="blue-gray" className="mb-2">
-                            {user?.username || "Tania Andrew"}
+                            {user?.name || user?.username || "Tania Andrew"}
                         </Typography>
                         <Typography color="blue-gray" className="font-medium" textGradient>
                             {user?.email || "abc@email.com"}

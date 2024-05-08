@@ -5,6 +5,7 @@ import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { SavedArticles } from "../../data";
 import ContactUs from "./ContactUs";
+import { CommentDrawer } from "./CommentDrawer";
 
 // TODO: - add loading spinner
 
@@ -132,6 +133,17 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
         // OverRequestNewsApiPreSavedArticlesSetCalling();
     }, [active]); // Include active, page, and categoryChanged in the dependency array
 
+    const [selectedArticle, setSelectedArticle] = useState(null)
+    const [openRight, setOpenRight] = React.useState(false);
+    const openDrawerRight = () => setOpenRight(true);
+    const closeDrawerRight = () => setOpenRight(false);
+    const [selectedArticleForComment, setSelectedArticleForComment] = useState(null)
+    const handleCommentDrawer = (article) => {
+        console.log('hi')
+        setSelectedArticle(article.uuid)
+        setSelectedArticleForComment(article)
+        openDrawerRight()
+    }
     {/* loading ? <div className="absolute" style={{left: '47%', top: '45%'}}><Loading /></div> :  */ }
     return (
         <>
@@ -139,6 +151,19 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
                 <>
                     <div className="h-0">
                         <ContactUs />
+                        {
+                            selectedArticleForComment &&
+
+                            <CommentDrawer
+                                openDrawerRight={openDrawerRight}
+                                closeDrawerRight={closeDrawerRight}
+                                openRight={openRight}
+                                setOpenRight={setOpenRight}
+                                articleID={selectedArticle}
+                                article={selectedArticleForComment}
+                                setSelectedArticle={setSelectedArticle}
+                            />
+                        }
                     </div>
                     <div>
                         <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center flex-wrap
@@ -150,7 +175,7 @@ const NewsItemsCont = ({ category = "general", setProgress }) => {
                                 articles ?
                                     articles?.map((article, index) => {
                                         return (
-                                            <NewsItem key={article.uuid} article={article} loading={loading} />
+                                            <NewsItem key={article.uuid} article={article} loading={loading} handleCommentDrawer={handleCommentDrawer} />
                                         )
                                     })
                                     :

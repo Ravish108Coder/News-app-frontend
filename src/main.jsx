@@ -5,12 +5,11 @@ import './index.css'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { DrawerProvider } from './context/DrawerContext.jsx'
 
-
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <Router>
-    <DrawerProvider>
-      <App />
-    </DrawerProvider>
+      <DrawerProvider>
+        <App />
+      </DrawerProvider>
   </Router>
 )

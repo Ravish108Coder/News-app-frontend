@@ -6,6 +6,8 @@ import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { SavedArticles } from "../../data";
 import ContactUs from "./ContactUs";
 import { useDrawer } from "../context/DrawerContext";
+import FilterNewsItem from "./FilterNewsItem";
+import { CommentDrawer } from "./CommentDrawer";
 
 // TODO: - add loading spinner
 
@@ -85,6 +87,18 @@ const FilterNewsItemCont = ({setProgress}) => {
         console.log('hi4')
         fetchMultiplePages();
     }, [active]);
+
+    const [selectedArticle, setSelectedArticle] = useState(null)
+    const [openRight, setOpenRight] = React.useState(false);
+    const openDrawerRight = () => setOpenRight(true);
+    const closeDrawerRight = () => setOpenRight(false);
+    const [selectedArticleForComment, setSelectedArticleForComment] = useState(null)
+    const handleCommentDrawer = (article) => {
+        console.log('hi')
+        setSelectedArticle(article.uuid)
+        setSelectedArticleForComment(article)
+        openDrawerRight()
+    }
     
     return (
         <>
@@ -92,6 +106,19 @@ const FilterNewsItemCont = ({setProgress}) => {
                 <>
                     <div className="h-0">
                         <ContactUs />
+                        {
+                            selectedArticleForComment &&
+
+                            <CommentDrawer
+                                openDrawerRight={openDrawerRight}
+                                closeDrawerRight={closeDrawerRight}
+                                openRight={openRight}
+                                setOpenRight={setOpenRight}
+                                articleID={selectedArticle}
+                                article={selectedArticleForComment}
+                                setSelectedArticle={setSelectedArticle}
+                            />
+                        }
                     </div>
                     <div>
                         <div className="news-item-cont flex w-full px-12 py-10 items-center justify-center flex-wrap
@@ -103,7 +130,7 @@ const FilterNewsItemCont = ({setProgress}) => {
                                 articles ?
                                     articles?.map((article, index) => {
                                         return (
-                                            <NewsItem key={article.uuid} article={article} loading={loading} />
+                                            <FilterNewsItem key={article.uuid} article={article} loading={loading} handleCommentDrawer={handleCommentDrawer} />
                                         )
                                     })
                                     :

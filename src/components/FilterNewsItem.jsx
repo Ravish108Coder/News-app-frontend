@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { IconButton } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
+import { MessageCircleMore } from "lucide-react";
  
 
 
@@ -38,7 +39,7 @@ function IconButtonDefault({isBookmarked, addingToFavorite}) {
 }
 
 
-const FilterNewsItem = ({ article, loading }) => {
+const FilterNewsItem = ({ article, loading, handleCommentDrawer }) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const { title, description, image_url, url } = article
     const urlToImage = image_url;
@@ -188,6 +189,7 @@ const FilterNewsItem = ({ article, loading }) => {
                     <span className="text-black" onClick={handleAddToFavorite}>
                         <IconButtonDefault isBookmarked={isBookmarked} addingToFavorite={addingToFavorite} />
                     </span>
+                    <MessageCircleMore onClick={()=>handleCommentDrawer(article)} color="#119c28" size={"32"} className="cursor-pointer hover:scale-75 hover:ease-in-out" />
                 </CardFooter>
             </Card>
     )

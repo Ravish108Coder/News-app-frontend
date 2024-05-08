@@ -47,8 +47,10 @@ const DialogBox = ({ open, setOpen, handleOpen, newProfile, setNewProfile, showP
       setOpen(false);
     }
   }, [])
+  
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
+    console.log(newProfile)
     try {
       setProfileUpdadteBtnloading(true);
       const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/profile`, {

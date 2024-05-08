@@ -6,7 +6,7 @@ import {
     Typography,
     Button,
 } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // TODO: pagination krna hai aur category wise news show krna hai routes ke through shayad optional
 // TODO: strong authentication plus pagination
@@ -15,36 +15,38 @@ import { useEffect, useState } from "react";
 import { IconButton } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
- 
+import { MessageCircleMore } from 'lucide-react'
 
 
-function IconButtonDefault({isBookmarked, addingToFavorite}) {
+
+function IconButtonDefault({ isBookmarked, addingToFavorite }) {
     return (
         addingToFavorite ?
-        <Spinner />
-        :
-        !isBookmarked ?
-            (<IconButton size="md" color="red">
-                <i className="fas fa-heart" />
-            </IconButton>)
+            <Spinner />
             :
-            (<span>
-                <Link to={"/bookmark"} >
-                {/* <i className="fa-solid fa-square-check fa-2xl" style={{color: '#63E6BE'}}></i> */}
-                <i className="fa-solid fa-bookmark fa-2xl" style={{color: '#395373'}}></i>
-                </Link>
-            </span>)
+            !isBookmarked ?
+                (<IconButton size="md" color="red">
+                    <i className="fas fa-heart" />
+                </IconButton>)
+                :
+                (<span>
+                    <Link to={"/bookmark"} >
+                        {/* <i className="fa-solid fa-square-check fa-2xl" style={{color: '#63E6BE'}}></i> */}
+                        <i className="fa-solid fa-bookmark fa-2xl" style={{ color: '#395373' }}></i>
+                    </Link>
+                </span>)
     );
 }
 
 
-const NewsItem = ({ article, loading }) => {
+const NewsItem = ({ article, loading, handleCommentDrawer }) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const { title, description, image_url, url } = article
     const urlToImage = image_url;
     const newsImage = "https://t3.ftcdn.net/jpg/03/27/55/60/360_F_327556002_99c7QmZmwocLwF7ywQ68ChZaBry1DbtD.jpg"
     const [imageLoaded, setImageLoaded] = useState(false);
     const [addingToFavorite, setAddingToFavorite] = useState(false);
+    
 
     const handleImageLoad = () => {
         setImageLoaded(true);
@@ -59,14 +61,14 @@ const NewsItem = ({ article, loading }) => {
         setAddingToFavorite(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/addToFavorite`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(article)
-            }
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(article)
+                }
             );
             const data = await response.json();
             if (data.success) {
@@ -74,12 +76,13 @@ const NewsItem = ({ article, loading }) => {
             }
         } catch (error) {
             console.log(error.message)
-        }finally{
+        } finally {
             setAddingToFavorite(false);
         }
     }
 
     useEffect(() => {
+        // console.log(article)
         const checkIfAlreadyFavorite = async () => {
             try {
                 const response = await fetch(`${import.meta.env.VITE_SERVER}/api/user/isAlreadyFavorite`,
@@ -93,7 +96,7 @@ const NewsItem = ({ article, loading }) => {
                     }
                 );
                 const data = await response.json();
-                if(data.success){
+                if (data.success) {
                     setIsBookmarked(true)
                 }
             } catch (error) {
@@ -171,7 +174,6 @@ const NewsItem = ({ article, loading }) => {
                                 "No Title" :
                                 String(title).length > 90 ? String(title).slice(0, 87) + "..." : title
                         }
-                        {article.id}
                     </Typography>
                     <Typography>
                         {
@@ -181,16 +183,19 @@ const NewsItem = ({ article, loading }) => {
                         }
                     </Typography>
                 </CardBody>
-                <CardFooter className="pt-0 absolute bottom-0 flex justify-between items-center w-full" style={{ bottom: '-12px' }}>
+                <CardFooter className="pt-0 absolute bottom-0 flex justify-between items-center w-full px-6" style={{ bottom: '-12px' }}>
                     <a href={url} target="_blank">
                         <Button>Read More</Button>
                     </a>
                     <span className="text-black" onClick={handleAddToFavorite}>
                         <IconButtonDefault isBookmarked={isBookmarked} addingToFavorite={addingToFavorite} />
                     </span>
+                    <MessageCircleMore onClick={()=>handleCommentDrawer(article)} color="#119c28" size={"32"} className="cursor-pointer hover:scale-75 hover:ease-in-out" />
+                    
                 </CardFooter>
             </Card>
     )
 }
 
 export default NewsItem
+
